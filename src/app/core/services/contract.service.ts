@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Contract } from '../types/contract.interface';
+import { Contract } from '../models/contract.model';
 import { Observable } from 'rxjs';
 
 @Injectable({

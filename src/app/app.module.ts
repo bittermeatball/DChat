@@ -4,16 +4,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from './auth/auth.module';
-import { ContractModule } from './contract/contract.module';
-import { TemplateModule } from './template/template.module';
-import { TemplateService } from 'src/services/template.service';
-import { ContractService } from 'src/services/contract.service';
 import { StoreModule } from '@ngrx/store';
-import { booksReducer } from 'src/store/book/book.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { collectionReducer } from 'src/store/collection/collection.reducer';
+import { AuthModule } from './modules/auth/auth.module';
+import { ContractModule } from './modules/contract/contract.module';
+import { TemplateModule } from './modules/template/template.module';
+import { booksReducer } from './store/book/book.reducer';
+import { collectionReducer } from './store/collection/collection.reducer';
+import { TemplateService } from './core/services/template.service';
+import { ContractService } from './core/services/contract.service';
 
 @NgModule({
   declarations: [

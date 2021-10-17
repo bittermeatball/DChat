@@ -5,21 +5,21 @@ import { DetailComponent } from './detail/detail.component';
 import { EditComponent } from './detail/edit/edit.component';
 import { ContractComponent } from './contract.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
-    path: 'contract/list',
+    path: 'contracts',
     component: ContractComponent
   },
   {
-    path: 'contract/create',
+    path: 'contracts/create',
     component: CreateComponent
   },
   {
-    path: 'contract/:id',
+    path: 'contracts/:id',
     component: DetailComponent
   },
   {
-    path: 'contract/:id/edit',
+    path: 'contracts/:id/edit',
     component: EditComponent
   },
 ];

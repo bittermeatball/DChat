@@ -1,1 +1,3 @@
-export interface Contract {};
+export interface Contract {
+  id: string;
+};

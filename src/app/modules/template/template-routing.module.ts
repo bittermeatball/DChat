@@ -7,19 +7,19 @@ import { TemplateComponent } from './template.component';
 
 const routes: Routes = [
   {
-    path: 'template/list',
+    path: 'templates',
     component: TemplateComponent
   },
   {
-    path: 'template/create',
+    path: 'templates/create',
     component: CreateComponent
   },
   {
-    path: 'template/:id',
+    path: 'templates/:id',
     component: DetailComponent
   },
   {
-    path: 'template/:id/edit',
+    path: 'templates/:id/edit',
     component: EditComponent
   },
 ];

@@ -1,0 +1,33 @@
+<div class="w-screen h-screen flex flex-col">
+  <app-navbar></app-navbar>
+  <div class="flex flex-1">
+    <div class="w-72 p-4">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="flex-1">
+      <div
+        *ngIf="selectedConversation; else chatBox"
+        class="w-full h-full flex items-center justify-center"
+      >
+        <div
+          class="
+            w-48
+            h-48
+            rounded-full
+            bg-gray-100
+            text-gray-400 text-center
+            flex flex-col
+            justify-center
+            items-center
+          "
+        >
+          <mat-icon class="w-24 h-16 text-6xl">contact_mail</mat-icon>
+          <p class="font-semibold">You haven't create any conversation</p>
+        </div>
+      </div>
+      <ng-template #chatBox>
+        <app-chatbox></app-chatbox>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="w-full h-full flex">
+  <div class="flex flex-1 flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between h-14 px-3 bg-gray-100">
+      <h3 class="m-0">My funny talk with hehe</h3>
+      <div>
+        <button mat-mini-fab class="ml-3">
+          <mat-icon>phone</mat-icon>
+        </button>
+        <button mat-mini-fab class="ml-3">
+          <mat-icon>video_call</mat-icon>
+        </button>
+        <button mat-mini-fab class="ml-3">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="flex-1 bg-gray-200"></div>
+    <!-- Footer -->
+    <div class="flex bg-gray-100">
+      <textarea
+        class="w-full p-5 bg-gray-100"
+        placeholder="Type your message"
+        #textareaElement
+        (input)="handleInputTextarea($event)"
+        [value]="textareaValue"
+        [style.height]="textareaHeight"
+      ></textarea>
+      <div class="flex items-center px-3">
+        <button mat-mini-fab>
+          <mat-icon>sentiment_satisfied_alt</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="w-64 bg-accent-500"></div>
+</div>

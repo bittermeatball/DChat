@@ -18,6 +18,7 @@ import { ContractEffects } from './store/contract/contract.effects';
 import { NetworkInterceptor } from './core/interceptors/network.interceptor';
 import { TemplateService } from './services/template.service';
 import { ContractService } from './services/contract.service';
+import { ChatModule } from './modules/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ContractService } from './services/contract.service';
     BrowserAnimationsModule,
     HttpClientModule,
     AuthModule,
+    ChatModule,
     ContractModule,
     TemplateModule,
     StoreModule.forRoot({ app: appReducer, contracts: contractReducer, templates: templateReducer }),

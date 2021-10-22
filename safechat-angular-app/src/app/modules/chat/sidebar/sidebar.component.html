@@ -1,0 +1,29 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="activePanel === PANEL.CONVERSATION">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-gray-500">
+        <mat-icon>question_answer</mat-icon>
+      </mat-panel-title>
+      <mat-panel-title class="text-gray-500"> Conversation </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p class="text-gray-500">Create conversation with your contacts.</p>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="activePanel === PANEL.CONTACTS">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-gray-500">
+        <mat-icon>contact_mail</mat-icon>
+      </mat-panel-title>
+      <mat-panel-title class="text-gray-500"> Contacts </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>All of your contacts.</p>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="activePanel === PANEL.SHARING">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-gray-500">
+        <mat-icon>share</mat-icon>
+      </mat-panel-title>
+      <mat-panel-title class="text-gray-500"> Sharing </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>File Sharing and shit.</p>
+  </mat-expansion-panel>
+</mat-accordion>

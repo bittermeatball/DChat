@@ -1,0 +1,11 @@
+import { Auth } from 'src/app/core/models/auth.model';
+
+export const authState = {
+  currentUser: {
+    id: '56c327903e10e4e492ugc72bc8ffc0b3a3ce8329',
+    name: 'Nguyen Huu Nguyen Y',
+    avatar: 'https://lh3.googleusercontent.com/a-/AOh14GgswXw5VWLdswBcKwakwKaLRFTX71K069Dnfmi4QNidn6FrwoCl1eu8KuQtqTV_A1xJpq1sYxfDpJpXVdhieYFiERw8lDzkB8f8rsAikVygxXEsSSMz2PjkqI1uGm5mIWQiDrmmG1pMsrQ-ucVgsr6b2rK15WCB892x1vUvMgQObiEemfKT9v49oxaHP7Tah1WbLwpMdd8unlGTSmzP2OGj-FPgLsniXkeEIvA8VxSCoq8nOQPZqkWltn4D76qS3jmgAVRDUxetZQw6LIMDnKLx5iTTx6io_k9zBkN3fNngxgvMzke6L5I3fncdnf0gSOakxxLi7cflripaxRQD6guheYMb4sIRZhK3XMBj357n1HwWD3CAzPoCCQXH78sIdNNXfIlzCmCOUNW_4LBA8TTzmMX2CQE7Vvo8eho3RtZxiey5F8aawkzhGnENhvcBlzl7Q57wkWOR1SWrLW50fC1sc60p1gm9HaDDB_N9jSeTmJL8EXAhblR8k6ufNOvg6npR_w5WuAfmnFGXHdcMvQDwSvtp0IuUwfJ3sqW21KeDj4XBf4gHoVmlvCT31cB7Z05DcpbiOz5vKm1suG5Nr9V9LUtHiorm1k4eXoLKH4W15UP87KsZWVFQjO_UX3utOeox7C_VqrVJlwt8BNW0gkktavz92S0TAkY8Ev-NQS8C0ML-j3IkX43NVtU2YQ1M4TnSWsiFCmAX2dNoK3_ykcok__RLSu6QfMNcHDh6CLc6aBQLeMTE-YQbxDQltyznumqrzA=s88-w88-h88-c-k',
+  } as Auth,
+};
+
+export type AuthState = typeof authState;

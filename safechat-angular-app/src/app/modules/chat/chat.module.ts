@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 import { ChatRoutingModule } from './chat-routing.module';
@@ -27,7 +28,8 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
-    MatInputModule
+    MatInputModule,
+    MatSidenavModule
   ]
 })
 export class ChatModule { }

@@ -1,38 +1,141 @@
 <div class="w-full h-full flex">
-  <div class="flex flex-1 flex-col">
-    <!-- Header -->
-    <div class="flex items-center justify-between h-14 px-3 bg-gray-100">
-      <h3 class="m-0">My funny talk with hehe</h3>
-      <div>
-        <button mat-mini-fab class="ml-3">
-          <mat-icon>phone</mat-icon>
-        </button>
-        <button mat-mini-fab class="ml-3">
-          <mat-icon>video_call</mat-icon>
-        </button>
-        <button mat-mini-fab class="ml-3">
-          <mat-icon>chevron_right</mat-icon>
-        </button>
+  <mat-drawer-container class="flex-1 bg-white">
+    <mat-drawer mode="side" opened>
+      <div class="w-64 py-4 px-1">
+        <!-- Conversation detail -->
+        <div class="shadow-md px-3 py-8 rounded-md text-center">
+          <img
+            class="
+              h-36
+              w-36
+              mx-auto
+              mb-5
+              rounded-full
+              object-cover
+              border-4 border-accent-500 border-dashed
+            "
+            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+            alt="My funny talk with hehe"
+          />
+          <h3 class="text-xl text-gray-800 font-bold mb-0">
+            My suprere secret talk with hehe boi
+          </h3>
+          <h3 class="text-xl text-gray-800 font-bold">(5603...b429)</h3>
+          <div>
+            <button mat-raised-button color="accent" class="w-full mb-3">
+              <mat-icon class="mr-1">content_copy</mat-icon>
+              Copy code (5603...b429)
+            </button>
+            <button mat-raised-button color="accent" class="w-full mb-3">
+              <mat-icon class="mr-1">file_present</mat-icon>
+              View all attachments
+            </button>
+            <button mat-raised-button color="accent" class="w-full mb-3">
+              <mat-icon class="mr-1">photo_library</mat-icon>
+              View all images
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- Body -->
-    <div class="flex-1 bg-gray-200"></div>
-    <!-- Footer -->
-    <div class="flex bg-gray-100">
-      <textarea
-        class="w-full p-5 bg-gray-100"
-        placeholder="Type your message"
-        #textareaElement
-        (input)="handleInputTextarea($event)"
-        [value]="textareaValue"
-        [style.height]="textareaHeight"
-      ></textarea>
-      <div class="flex items-center px-3">
-        <button mat-mini-fab>
-          <mat-icon>sentiment_satisfied_alt</mat-icon>
-        </button>
+    </mat-drawer>
+    <mat-drawer-content class="flex flex-1 flex-col p-4">
+      <!-- Header -->
+      <div
+        class="flex items-center justify-between h-14 rounded-lg px-3 shadow-md"
+      >
+        <div>
+          <button mat-mini-fab>
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button mat-mini-fab class="ml-3">
+            <mat-icon>phone</mat-icon>
+          </button>
+          <button mat-mini-fab class="ml-3">
+            <mat-icon>video_call</mat-icon>
+          </button>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="w-64 bg-accent-500"></div>
+      <!-- Body -->
+      <div class="flex-1 flex flex-col justify-end py-3">
+        <!-- Conversation item -->
+        <div class="flex my-3">
+          <img
+            class="
+              h-12
+              w-12
+              rounded-full
+              object-cover
+              border-2 border-accent-500 border-dashed
+              mr-3
+            "
+            src="https://lh3.googleusercontent.com/a-/AOh14GgswXw5VWLdswBcKwakwKaLRFTX71K069Dnfmi4QNidn6FrwoCl1eu8KuQtqTV_A1xJpq1sYxfDpJpXVdhieYFiERw8lDzkB8f8rsAikVygxXEsSSMz2PjkqI1uGm5mIWQiDrmmG1pMsrQ-ucVgsr6b2rK15WCB892x1vUvMgQObiEemfKT9v49oxaHP7Tah1WbLwpMdd8unlGTSmzP2OGj-FPgLsniXkeEIvA8VxSCoq8nOQPZqkWltn4D76qS3jmgAVRDUxetZQw6LIMDnKLx5iTTx6io_k9zBkN3fNngxgvMzke6L5I3fncdnf0gSOakxxLi7cflripaxRQD6guheYMb4sIRZhK3XMBj357n1HwWD3CAzPoCCQXH78sIdNNXfIlzCmCOUNW_4LBA8TTzmMX2CQE7Vvo8eho3RtZxiey5F8aawkzhGnENhvcBlzl7Q57wkWOR1SWrLW50fC1sc60p1gm9HaDDB_N9jSeTmJL8EXAhblR8k6ufNOvg6npR_w5WuAfmnFGXHdcMvQDwSvtp0IuUwfJ3sqW21KeDj4XBf4gHoVmlvCT31cB7Z05DcpbiOz5vKm1suG5Nr9V9LUtHiorm1k4eXoLKH4W15UP87KsZWVFQjO_UX3utOeox7C_VqrVJlwt8BNW0gkktavz92S0TAkY8Ev-NQS8C0ML-j3IkX43NVtU2YQ1M4TnSWsiFCmAX2dNoK3_ykcok__RLSu6QfMNcHDh6CLc6aBQLeMTE-YQbxDQltyznumqrzA=s88-w88-h88-c-k"
+            alt=""
+          />
+          <div class="p-3 rounded-md shadow-md">
+            <p class="flex mb-1">
+              <b>User name</b><small class="text-gray-500 ml-2">12:34 PM</small>
+            </p>
+            <p class="max-w-xl">
+              Chat content bla bla bla bal orem Ipsum is simply dummy text of
+              the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an
+              unknown printer took a galley of type and scrambled it to make a
+              type specimen book. It has survived not only five centuries
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-row-reverse my-3">
+          <img
+            class="
+              h-12
+              w-12
+              rounded-full
+              object-cover
+              border-2 border-accent-500 border-dashed
+              ml-3
+            "
+            src="https://lh3.googleusercontent.com/a-/AOh14GgswXw5VWLdswBcKwakwKaLRFTX71K069Dnfmi4QNidn6FrwoCl1eu8KuQtqTV_A1xJpq1sYxfDpJpXVdhieYFiERw8lDzkB8f8rsAikVygxXEsSSMz2PjkqI1uGm5mIWQiDrmmG1pMsrQ-ucVgsr6b2rK15WCB892x1vUvMgQObiEemfKT9v49oxaHP7Tah1WbLwpMdd8unlGTSmzP2OGj-FPgLsniXkeEIvA8VxSCoq8nOQPZqkWltn4D76qS3jmgAVRDUxetZQw6LIMDnKLx5iTTx6io_k9zBkN3fNngxgvMzke6L5I3fncdnf0gSOakxxLi7cflripaxRQD6guheYMb4sIRZhK3XMBj357n1HwWD3CAzPoCCQXH78sIdNNXfIlzCmCOUNW_4LBA8TTzmMX2CQE7Vvo8eho3RtZxiey5F8aawkzhGnENhvcBlzl7Q57wkWOR1SWrLW50fC1sc60p1gm9HaDDB_N9jSeTmJL8EXAhblR8k6ufNOvg6npR_w5WuAfmnFGXHdcMvQDwSvtp0IuUwfJ3sqW21KeDj4XBf4gHoVmlvCT31cB7Z05DcpbiOz5vKm1suG5Nr9V9LUtHiorm1k4eXoLKH4W15UP87KsZWVFQjO_UX3utOeox7C_VqrVJlwt8BNW0gkktavz92S0TAkY8Ev-NQS8C0ML-j3IkX43NVtU2YQ1M4TnSWsiFCmAX2dNoK3_ykcok__RLSu6QfMNcHDh6CLc6aBQLeMTE-YQbxDQltyznumqrzA=s88-w88-h88-c-k"
+            alt=""
+          />
+          <div class="p-3 rounded-md shadow-md">
+            <p class="flex flex-row-reverse mb-1">
+              <b>User name 2</b>
+              <small class="text-gray-500 mr-2">12:34 PM</small>
+            </p>
+            <p class="max-w-xl">
+              Chat content bla bla bla bal orem Ipsum is simply dummy text of
+              the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an
+              unknown printer took a galley of type and scrambled it to make a
+              type specimen book. It has survived not only five centuries
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="flex rounded-lg shadow-md">
+        <textarea
+          class="w-full p-5"
+          placeholder="Type your message"
+          #textareaElement
+          (input)="handleInputTextarea($event)"
+          [value]="textareaValue"
+          [style.height]="textareaHeight"
+        ></textarea>
+        <div class="flex items-center gap-3 px-3">
+          <button mat-mini-fab>
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <button mat-mini-fab>
+            <mat-icon>image</mat-icon>
+          </button>
+          <button mat-mini-fab>
+            <mat-icon>sentiment_satisfied_alt</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>

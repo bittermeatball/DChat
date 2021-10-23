@@ -4,15 +4,17 @@
       "module": "commonjs",                    
       "lib": ["es6"],                     
       "allowJs": true,
-      "outDir": "build",
-      "rootDir": "src/",                        
-      "baseUrl": ".",
+      "outDir": "./build",
+      "baseUrl": "./",
       "strict": true,         
       "noImplicitAny": true,
       "esModuleInterop": true,
       "resolveJsonModule": true
     },
+    "include": [
+        "./**/*"
+    ],
     "exclude": [
-      "public"
+      "./build/**/*"
     ]
-  }
+}

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express, { Express } from 'express';
-import { PathResolver } from './resolver/path.resolver';
+import { ModuleResolver } from './resolver/module.resolver';
 
 export class FussFactory {
   private constructor(private app: Express) {}
@@ -9,15 +9,13 @@ export class FussFactory {
     return new FussFactory(express());
   }
 
-  public run(port: number) {
-    const env = process.env.NODE_ENV;
-    const buildFolder = env === 'production' ? 'build' : 'src';
-    const fileExtension = env === 'production' ? 'js' : 'ts';
+  public addController(controller: any) {
+    const moduleResolver = new ModuleResolver();
+    this.app.use(moduleResolver.resolve(controller));
+    return this;
+  }
 
-    const pathResolver = new PathResolver(
-      `${buildFolder}/**/*.${fileExtension}`,
-    );
-    pathResolver.collect();
+  public run(port: number) {
     this.app.listen(port, () => {
       console.log(`App is listening on port: ${port}`);
     });

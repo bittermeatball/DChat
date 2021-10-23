@@ -1,3 +1,4 @@
 import { FussFactory } from './@fussjs/fuss.factory';
+import { UserController } from './modules/user/user.controller';
 
-FussFactory.create().run(3000);
+FussFactory.create().addController(UserController).run(3000);

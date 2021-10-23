@@ -6,3 +6,11 @@ export const Controller = (basePath: string): ClassDecorator => {
     Reflect.defineMetadata(CONTROLLER_SYMBOL, basePath, target);
   };
 };
+
+export const Get = (path?: string): MethodDecorator => {
+  return (target, propKey, descriptor) => {
+    console.log(target);
+    console.log(propKey);
+    console.log(descriptor);
+  };
+};

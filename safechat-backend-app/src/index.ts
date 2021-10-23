@@ -1,7 +1,3 @@
-import express from 'express';
+import { FussFactory } from './@fussjs/fuss.factory';
 
-const app = express();
-
-app.listen(3000, () => {
-  console.log(`App is listening on port 3000`);
-});
+FussFactory.create().run(3000);

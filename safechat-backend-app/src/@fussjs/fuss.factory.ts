@@ -11,7 +11,7 @@ export class FussFactory {
 
   public addController(controller: any) {
     const moduleResolver = new ModuleResolver();
-    this.app.use(moduleResolver.resolve(controller));
+    moduleResolver.resolve(this.app, controller);
     return this;
   }
 

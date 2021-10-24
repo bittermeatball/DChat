@@ -1,13 +1,23 @@
-import { Router } from 'express';
+import 'reflect-metadata';
+import { Router, Express } from 'express';
+import { CONTROLLER_SYMBOL, ROUTES_SYMBOL } from '@fussjs/decorator/constant';
+import { IRoute } from '@fussjs/decorator/route';
 
 export class ModuleResolver {
   private router: Router = Router();
 
-  public resolve(controller: any): Router {
-    console.log(controller);
-    this.router.get('/', (req) => {
-      console.log('Hello');
+  public resolve(app: Express, controller: any): void {
+    const instance = new controller();
+    const basePath = Reflect.getMetadata(CONTROLLER_SYMBOL, controller);
+
+    const routers: IRoute[] = Reflect.getMetadata(ROUTES_SYMBOL, controller);
+    routers.forEach((router) => {
+      this.router[router.method](router.path, instance[router.methodName]);
+      console.log(
+        `[${controller.name}] mapping: ${router.method} ${basePath}${router.path}`,
+      );
     });
-    return this.router;
+
+    app.use(basePath, this.router);
   }
 }

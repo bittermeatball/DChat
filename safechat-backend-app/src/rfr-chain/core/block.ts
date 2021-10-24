@@ -5,14 +5,19 @@ export class Block {
   private signature = 'asdsd';
 
   constructor(
-    private timestamp: number,
-    private lastHash: string,
-    private hash: string,
-    private data: any,
+    public timestamp: number,
+    public lastHash: string,
+    public hash: string,
+    public data: any,
   ) {}
 
   static genesis() {
     return new Block(Date.now(), '', '', '');
+  }
+
+  static blockHash(block: Block) {
+    const { timestamp, lastHash, data } = block;
+    return hash(timestamp, lastHash, data);
   }
 
   static createBlock(lastBlock: Block, data: any) {

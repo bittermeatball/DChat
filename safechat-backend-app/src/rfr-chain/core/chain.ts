@@ -1,6 +1,7 @@
+import { BlockChain } from '../interface/blockchain';
 import { Block } from './block';
 
-export class RfRChain {
+export class RfRChain implements BlockChain {
   public blocks: Block[];
 
   constructor() {

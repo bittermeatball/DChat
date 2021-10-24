@@ -12,9 +12,13 @@ export class FussFactory {
     return instance;
   }
 
-  public addController(controller: any) {
+  public addController(...controllers: any[]) {
     const moduleResolver = new ModuleResolver();
-    moduleResolver.resolve(this.app, controller);
+
+    controllers.forEach((controller: any) => {
+      moduleResolver.resolve(this.app, controller);
+    });
+
     return this;
   }
 

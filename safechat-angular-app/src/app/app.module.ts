@@ -9,16 +9,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AuthModule } from './modules/auth/auth.module';
-import { ContractModule } from './modules/contract/contract.module';
-import { TemplateModule } from './modules/template/template.module';
-import { contractReducer } from './store/contract/contract.reducer';
-import { templateReducer } from './store/template/template.reducer';
 import { appReducer } from './store/app.reducer';
-import { ContractEffects } from './store/contract/contract.effects';
 import { NetworkInterceptor } from './core/interceptors/network.interceptor';
-import { TemplateService } from './services/template.service';
-import { ContractService } from './services/contract.service';
 import { ChatModule } from './modules/chat/chat.module';
+import { authReducer } from './store/auth/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -31,15 +25,11 @@ import { ChatModule } from './modules/chat/chat.module';
     HttpClientModule,
     AuthModule,
     ChatModule,
-    ContractModule,
-    TemplateModule,
-    StoreModule.forRoot({ app: appReducer, contracts: contractReducer, templates: templateReducer }),
+    StoreModule.forRoot({ app: appReducer, auth: authReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContractEffects]),
+    EffectsModule.forRoot([]),
   ],
   providers: [
-    TemplateService,
-    ContractService,
     { provide: "API_URL", useValue: environment.apiUrl },
     {
       provide: HTTP_INTERCEPTORS,

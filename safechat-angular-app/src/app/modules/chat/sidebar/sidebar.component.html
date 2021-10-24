@@ -6,7 +6,35 @@
       </mat-panel-title>
       <mat-panel-title class="text-gray-500"> Conversation </mat-panel-title>
     </mat-expansion-panel-header>
-    <p class="text-gray-500">Create conversation with your contacts.</p>
+    <div class="text-gray-500">
+      <div
+        *ngFor="let conversation of conversations; index as i"
+        class="p-3 mb-3 rounded-md shadow-md cursor-pointer bg-cover"
+        [class]="conversation.thumbnail && 'text-white bg-blend-darken'"
+        [style]="{
+          backgroundImage: conversation.thumbnail
+            ? 'url(' + conversation.thumbnail + ')'
+            : '',
+          backgroundColor: conversation.thumbnail ? 'rgba(0, 0, 0, 0.5)' : ''
+        }"
+        (click)="handleSelectConversation(conversation)"
+      >
+        <div class="conversation-item-inner">
+          <p class="mb-0">
+            <b>{{ conversation.title }}</b>
+          </p>
+          <div class="conversation-item-description">
+            <p class="mb-1 text-xs">
+              {{ conversation.lastMessageSender.name }}:
+              {{ conversation.lastMessage.message?.slice(0, 20) }}...
+            </p>
+            <p class="text-xs">
+              {{ conversation.lastMessageAt | date: "short" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="activePanel === PANEL.CONTACTS">
     <mat-expansion-panel-header>

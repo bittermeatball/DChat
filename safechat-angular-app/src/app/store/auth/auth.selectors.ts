@@ -1,8 +1,9 @@
-import { createSelector } from "@ngrx/store";
-import { Auth } from 'src/app/core/models/auth.model';
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AuthState } from './auth.state';
+
+const featureSelector = createFeatureSelector<AuthState>("auth");
  
 export const selectCurrentUser = createSelector(
+  featureSelector,
   (state: AuthState) => state.currentUser,
-  (currentUser: Auth) => currentUser
 );

@@ -1,26 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-interface User {
-  id: string;
-  name: string;
-}
-
-interface Message {
-  id: string;
-  sender: User;
-  message?: string;
-  images?: string[];
-  files?: string[];
-  createdAt: Date;
-}
-
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  images: string[];
-  files: string[];
-}
+import { Conversation } from 'src/app/core/models/conversation.model';
+import { conversations } from 'src/mock';
 
 @Component({
   selector: 'app-chat',
@@ -28,11 +8,14 @@ interface Conversation {
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  selectedConversation: Conversation | null = null
+  selectedConversation: Conversation | null = conversations[0]
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  handleSelectConversation(conversation: Conversation) {
+    this.selectedConversation = conversation;
+  }
 }

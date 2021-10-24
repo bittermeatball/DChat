@@ -2,11 +2,13 @@
   <app-navbar></app-navbar>
   <div class="flex flex-1">
     <div class="w-72 p-4">
-      <app-sidebar></app-sidebar>
+      <app-sidebar
+        (onSelectConversation)="handleSelectConversation($event)"
+      ></app-sidebar>
     </div>
     <div class="flex-1">
       <div
-        *ngIf="selectedConversation; else chatBox"
+        *ngIf="!selectedConversation; else chatBox"
         class="w-full h-full flex items-center justify-center"
       >
         <div
@@ -26,7 +28,7 @@
         </div>
       </div>
       <ng-template #chatBox>
-        <app-chatbox></app-chatbox>
+        <app-chatbox [conversation]="selectedConversation"></app-chatbox>
       </ng-template>
     </div>
   </div>

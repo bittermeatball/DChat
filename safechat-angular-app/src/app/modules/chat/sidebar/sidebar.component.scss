@@ -1,3 +1,14 @@
 .mat-expansion-panel {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+
+.conversation-item-inner {
+  .conversation-item-description {
+    display: none;
+  }
+  &:hover {
+    .conversation-item-description {
+      display: block;
+    }
+  }
+}

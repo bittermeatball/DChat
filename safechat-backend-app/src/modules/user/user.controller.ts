@@ -1,9 +1,9 @@
-import { Controller, Get } from '@fussjs/decorator/route';
 import { Request, Response } from 'express';
+import { Controller, Post } from '../../@fussjs/decorator/route';
 
-@Controller('/v1/users')
+@Controller('/v1/auth')
 export class UserController {
-  @Get('/')
+  @Post('/')
   public getAll(request: Request, res: Response) {
     return res.json({
       msg: 'Hello',

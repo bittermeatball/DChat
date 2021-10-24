@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node build/index.js",
+    "start": "cross-env NODE_ENV=production node -r tsconfig-paths/register -r ts-node build/index.js",
     "build:start": "npm run build && npm run start",
     "build": "rm -rf ./build && tsc",
     "dev": "cross-env NODE_ENV=development nodemon",
@@ -17,7 +17,9 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "solc": "^0.8.9",
+    "web3": "^1.6.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",

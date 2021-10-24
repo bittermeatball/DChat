@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { p2pServer } from 'src/config/p2p.config';
 import { Chain } from 'src/config/rfr.config';
+import { transactionPool, wallet } from 'src/config/transaction.config';
 import { Controller, Get, Post } from '../../@fussjs/decorator/route';
 
 @Controller('/v1/chain')
@@ -19,6 +20,30 @@ export class RFRController {
   public getBlocks(request: Request, res: Response) {
     return res.json({
       blocks: Chain.blocks,
+    });
+  }
+
+  @Get('/transactions')
+  public getTransactions(request: Request, response: Response) {
+    return response.json({
+      transactions: transactionPool.transactions,
+    });
+  }
+
+  @Post('/transact')
+  public createTransaction(request: Request, response: Response) {
+    const { to, amount, type } = request.body;
+
+    const transaction = wallet.createTransaction(
+      to,
+      amount,
+      type,
+      Chain,
+      transactionPool,
+    );
+    p2pServer.broadcastTransaction(transaction);
+    return response.json({
+      msg: 'Hello dmm',
     });
   }
 }

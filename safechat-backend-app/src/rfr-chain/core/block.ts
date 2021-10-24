@@ -1,4 +1,6 @@
-import { hash } from './encrypt';
+import { ChainUtil, hash } from './encrypt';
+import { Transaction } from './transaction';
+import { Wallet } from './wallet';
 
 export class Block {
   private validator: any;
@@ -32,6 +34,14 @@ export class Block {
     const encryptedHash = hash(timestamp, lastHash, data);
 
     return new Block(timestamp, lastHash, encryptedHash, data);
+  }
+
+  static signTransaction(transaction: Transaction, senderWallet: Wallet) {
+    transaction.input = {
+      timestamp: Date.now(),
+      from: senderWallet.publicKey,
+      signature: senderWallet.sign(ChainUtil.hash(transaction.output)),
+    };
   }
 
   toString() {

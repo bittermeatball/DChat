@@ -1,4 +1,7 @@
 import WebSocket from 'ws';
+import { MESSAGE_TYPE } from './rfr-chain/constant';
+import { Transaction } from './rfr-chain/core/transaction';
+import { TransactionPool } from './rfr-chain/core/transaction-pool';
 import { BlockChain } from './rfr-chain/interface/blockchain';
 
 //declare the peer to peer server port
@@ -10,10 +13,12 @@ const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 export class P2PServer {
   public blockchain: BlockChain;
   public sockets: any[];
+  public transactionPool: TransactionPool;
 
-  constructor(blockchain: BlockChain) {
+  constructor(blockchain: BlockChain, transactionPool: TransactionPool) {
     this.blockchain = blockchain;
     this.sockets = [];
+    this.transactionPool = transactionPool;
   }
 
   listen() {
@@ -32,11 +37,10 @@ export class P2PServer {
 
   // after making connection to a socket
   connectSocket(socket: WebSocket) {
-    // push the socket too the socket array
     this.sockets.push(socket);
     console.log('Socket connected');
     this.messageHandler(socket);
-    socket.send(JSON.stringify(this.blockchain.blocks));
+    this.sendChain(socket);
   }
 
   connectToPeers() {
@@ -52,20 +56,52 @@ export class P2PServer {
   }
 
   messageHandler(socket: WebSocket) {
-    socket.on('message', (message: any) => {
-      const data = JSON.parse(message);
-      console.log('data ', data);
-      this.blockchain.replaceChain(data);
+    socket.on('message', (message) => {
+      const data = JSON.parse(message as any);
+      console.log('Recieved data from peer:', data);
+
+      switch (data.type) {
+        case MESSAGE_TYPE.chain:
+          this.blockchain.replaceChain(data.chain);
+          break;
+
+        case MESSAGE_TYPE.transaction:
+          if (!this.transactionPool.transactionExists(data.transaction)) {
+            this.transactionPool.addTransaction(data.transaction);
+            this.broadcastTransaction(data.transaction);
+          }
+          break;
+      }
     });
   }
 
-  sendChain(socket: any) {
-    socket.send(JSON.stringify(this.blockchain.blocks));
+  sendChain(socket: WebSocket) {
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPE.chain,
+        chain: this.blockchain.blocks,
+      }),
+    );
   }
 
   syncChain() {
     this.sockets.forEach((socket) => {
       this.sendChain(socket);
     });
+  }
+
+  broadcastTransaction(transaction: Transaction) {
+    this.sockets.forEach((socket) => {
+      this.sendTransaction(socket, transaction);
+    });
+  }
+
+  sendTransaction(socket: WebSocket, transaction: Transaction) {
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPE.transaction,
+        transaction: transaction,
+      }),
+    );
   }
 }

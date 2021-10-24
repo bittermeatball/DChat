@@ -10,10 +10,10 @@ export class RfRChain implements BlockChain {
 
   replaceChain(newChain: Block[]) {
     if (newChain.length <= this.blocks.length) {
-      console.log('Recieved chain is not longer than the current chain');
+      console.log('Received chain is not longer than the current chain');
       return;
     } else if (!this.isValidChain(newChain)) {
-      console.log('Recieved chain is invalid');
+      console.log('Received chain is invalid');
       return;
     }
 

@@ -12,7 +12,7 @@ export class Block {
   ) {}
 
   static genesis() {
-    const timestamp = Date.now();
+    const timestamp = 0;
     return new Block(
       timestamp,
       '',

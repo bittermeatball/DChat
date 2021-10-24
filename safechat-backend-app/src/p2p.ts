@@ -31,13 +31,12 @@ export class P2PServer {
   }
 
   // after making connection to a socket
-  connectSocket(socket: any) {
+  connectSocket(socket: WebSocket) {
     // push the socket too the socket array
-    this.sockets.push(socket);
     this.sockets.push(socket);
     console.log('Socket connected');
     this.messageHandler(socket);
-    socket.send(JSON.stringify(this.blockchain));
+    socket.send(JSON.stringify(this.blockchain.blocks));
   }
 
   connectToPeers() {
@@ -52,7 +51,7 @@ export class P2PServer {
     });
   }
 
-  messageHandler(socket: any) {
+  messageHandler(socket: WebSocket) {
     socket.on('message', (message: any) => {
       const data = JSON.parse(message);
       console.log('data ', data);

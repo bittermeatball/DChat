@@ -27,8 +27,15 @@ export class RfRChain implements BlockChain {
   }
 
   isValidChain(chain: Block[]) {
+    console.log('Logging validity chain');
+
+    console.log(JSON.stringify(chain));
+    console.log(JSON.stringify(Block.genesis()));
+
     if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis()))
       return false;
+
+    console.log('Pass');
 
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i];

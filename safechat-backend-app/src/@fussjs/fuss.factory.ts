@@ -6,7 +6,10 @@ export class FussFactory {
   private constructor(private app: Express) {}
 
   public static create() {
-    return new FussFactory(express());
+    const instance = new FussFactory(express());
+    instance.app.use(express.urlencoded({ extended: true }));
+    instance.app.use(express.json());
+    return instance;
   }
 
   public addController(controller: any) {

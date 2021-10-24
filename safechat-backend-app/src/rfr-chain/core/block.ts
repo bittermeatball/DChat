@@ -12,7 +12,13 @@ export class Block {
   ) {}
 
   static genesis() {
-    return new Block(Date.now(), '', '', '');
+    const timestamp = Date.now();
+    return new Block(
+      timestamp,
+      '',
+      hash(timestamp, '', 'first-block'),
+      'first-block',
+    );
   }
 
   static blockHash(block: Block) {

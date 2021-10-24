@@ -23,8 +23,6 @@ export class RfRChain {
   addBlock(data: any) {
     const block = Block.createBlock(this.blocks[this.blocks.length - 1], data);
     this.blocks.push(block);
-
-    return block;
   }
 
   isValidChain(chain: Block[]) {

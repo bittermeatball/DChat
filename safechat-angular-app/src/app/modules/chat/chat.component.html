@@ -28,7 +28,10 @@
         </div>
       </div>
       <ng-template #chatBox>
-        <app-chatbox [conversation]="selectedConversation"></app-chatbox>
+        <app-chatbox
+          [conversation]="selectedConversation"
+          (submitMessage)="handleSubmitMessage($event)"
+        ></app-chatbox>
       </ng-template>
     </div>
   </div>

@@ -1,7 +1,8 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Auth } from 'src/app/core/models/auth.model';
 import { Conversation } from 'src/app/core/models/conversation.model';
+import { Message } from 'src/app/core/models/message.model';
 import { selectCurrentUser } from 'src/app/store/auth/auth.selectors';
 import { AuthState } from 'src/app/store/auth/auth.state';
 
@@ -11,12 +12,13 @@ import { AuthState } from 'src/app/store/auth/auth.state';
   styleUrls: ['./chatbox.component.scss']
 })
 export class ChatboxComponent implements OnInit {
+  @Output() submitMessage = new EventEmitter<Message>()
   @Input() conversation: Conversation | null = null
 
   @ViewChild('textareaElement') textareaElement?: ElementRef<HTMLTextAreaElement>
 
   textareaHeight = '3.5rem'
-  textareaValue: string | null = ''
+  textareaValue: string | null = null
   currentUser: Auth | null = null
 
   constructor(
@@ -36,13 +38,36 @@ export class ChatboxComponent implements OnInit {
       this.conversation?.id?.length
     )
 
-  handleInputTextarea($event : any) {
+  private _resizeTextarea() {
     const _el = this.textareaElement?.nativeElement
-
-    this.textareaValue = $event.target?.value
 
     this.textareaHeight = 'auto'
     this.textareaHeight = this.textareaValue ? (_el?.scrollHeight || 0) + 'px' : '3.5rem'
+  }
+
+  private _clearTextarea() {
+    this.textareaValue = ''
+    this._resizeTextarea()
+  }
+
+  handleInputTextarea() {
+    this._resizeTextarea()
+  }
+
+  handleEnterTextarea($event: any) {
+    $event.preventDefault()
+
+    this.handleSubmitMessage()
+    this._clearTextarea()
+  }
+
+  handleSubmitMessage() {
+    this.submitMessage.emit({
+      sender: this.currentUser,
+      message: this.textareaValue,
+      createdAt: new Date()
+    })
+    this._clearTextarea()
   }
 
 }

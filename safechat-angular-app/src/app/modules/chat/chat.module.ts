@@ -13,6 +13,7 @@ import { ChatComponent } from './chat.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ChatRoutingModule,
     MatToolbarModule,
     MatIconModule,

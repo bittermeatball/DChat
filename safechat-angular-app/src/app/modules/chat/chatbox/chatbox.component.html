@@ -80,12 +80,12 @@
               border-2 border-accent-500 border-dashed
               mr-3
             "
-            [src]="message.sender.avatar"
-            [alt]="message.sender.name"
+            [src]="message.sender?.avatar"
+            [alt]="message.sender?.name"
           />
           <div class="p-3 rounded-md shadow-md">
             <p class="flex mb-1">
-              <b>{{ message.sender.name }}</b>
+              <b>{{ message.sender?.name }}</b>
               <small class="text-gray-500 ml-2">
                 {{ message.createdAt | date: "short" }}
               </small>
@@ -100,11 +100,15 @@
           class="w-full p-5"
           placeholder="Type your message"
           #textareaElement
-          (input)="handleInputTextarea($event)"
-          [value]="textareaValue"
+          (input)="handleInputTextarea()"
+          (keydown.enter)="handleEnterTextarea($event)"
+          [(ngModel)]="textareaValue"
           [style.height]="textareaHeight"
         ></textarea>
         <div class="flex items-center gap-3 px-3">
+          <button mat-mini-fab (click)="handleSubmitMessage()">
+            <mat-icon>send</mat-icon>
+          </button>
           <button mat-mini-fab>
             <mat-icon>attach_file</mat-icon>
           </button>

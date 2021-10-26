@@ -18,6 +18,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { ContactDialogComponent } from './sidebar/contact-dialog/contact-dialog.component';
 
+
+import { ChatService } from 'src/app/services/chat.service';
+
 @NgModule({
   declarations: [
     ChatComponent,
@@ -38,6 +41,9 @@ import { ContactDialogComponent } from './sidebar/contact-dialog/contact-dialog.
     MatSidenavModule,
     MatRippleModule,
     MatDialogModule,
+  ],
+  providers: [
+    ChatService,
   ]
 })
 export class ChatModule { }

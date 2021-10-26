@@ -42,10 +42,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  findOrCreateNewConversation() {
-
-  }
-
   handleSelectConversation(conversation: Conversation): void {
     this.onSelectConversation.emit(conversation);
   }

@@ -1,0 +1,20 @@
+<div>
+  <button
+    mat-raised-button
+    color="primary"
+    class="w-full mb-3"
+    (click)="handleClickChat()"
+  >
+    <mat-icon class="mr-1">add_comment</mat-icon>
+    Chat with {{ data.contact.name }}
+  </button>
+  <button
+    mat-raised-button
+    color="accent"
+    class="w-full mb-3"
+    (click)="handleClickCopyCode()"
+  >
+    <mat-icon class="mr-1">content_copy</mat-icon>
+    Copy code ({{ contactShortenId() }})
+  </button>
+</div>

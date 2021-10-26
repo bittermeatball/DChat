@@ -1,6 +1,6 @@
 <div class="w-full h-full flex">
   <mat-drawer-container class="flex-1 bg-white">
-    <mat-drawer mode="side" opened>
+    <mat-drawer mode="side" [opened]="isChatboxDrawerOpened">
       <div class="w-64 py-4 px-1">
         <!-- Conversation detail -->
         <div class="shadow-md px-3 py-8 rounded-md text-center">
@@ -24,7 +24,12 @@
             ({{ conversationShortenId() }})
           </h3>
           <div>
-            <button mat-raised-button color="accent" class="w-full mb-3">
+            <button
+              mat-raised-button
+              color="accent"
+              class="w-full mb-3"
+              (click)="handleClickCopyCode()"
+            >
               <mat-icon class="mr-1">content_copy</mat-icon>
               Copy code ({{ conversationShortenId() }})
             </button>
@@ -46,8 +51,10 @@
         class="flex items-center justify-between h-14 rounded-lg px-3 shadow-md"
       >
         <div>
-          <button mat-mini-fab>
-            <mat-icon>chevron_left</mat-icon>
+          <button mat-mini-fab (click)="handleToggleDrawer()">
+            <mat-icon>
+              {{ isChatboxDrawerOpened ? "chevron_left" : "chevron_right" }}
+            </mat-icon>
           </button>
         </div>
         <div>

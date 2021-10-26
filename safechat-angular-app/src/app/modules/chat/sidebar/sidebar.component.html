@@ -25,8 +25,8 @@
           </p>
           <div class="conversation-item-description">
             <p class="mb-1 text-xs">
-              {{ conversation.lastMessageSender.name }}:
-              {{ conversation.lastMessage.message?.slice(0, 20) }}...
+              {{ conversation.lastMessageSender?.name }}:
+              {{ conversation.lastMessage?.message?.slice(0, 20) }}...
             </p>
             <p class="text-xs">
               {{ conversation.lastMessageAt | date: "short" }}
@@ -43,7 +43,25 @@
       </mat-panel-title>
       <mat-panel-title class="text-gray-500"> Contacts </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>All of your contacts.</p>
+    <div class="text-gray-500">
+      <div
+        *ngFor="let contact of contacts; index as i"
+        class="p-1 mb-3 rounded-md shadow-md cursor-pointer bg-cover"
+        (click)="handleSelectContact(contact)"
+        matRipple
+      >
+        <div class="flex items-center gap-2">
+          <img
+            [src]="contact.avatar"
+            [alt]="contact.name"
+            class="w-8 h-8 object-cover"
+          />
+          <p class="mb-0">
+            <b>{{ contact.name }}</b>
+          </p>
+        </div>
+      </div>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="activePanel === PANEL.SHARING">
     <mat-expansion-panel-header>

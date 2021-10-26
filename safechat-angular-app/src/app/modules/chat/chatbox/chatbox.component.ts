@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Auth } from 'src/app/core/models/auth.model';
 import { Conversation } from 'src/app/core/models/conversation.model';
 import { Message } from 'src/app/core/models/message.model';
+import { Utils } from 'src/app/core/utils';
 import { selectCurrentUser } from 'src/app/store/auth/auth.selectors';
 import { AuthState } from 'src/app/store/auth/auth.state';
 
@@ -16,10 +17,12 @@ export class ChatboxComponent implements OnInit {
   @Input() conversation: Conversation | null = null
 
   @ViewChild('textareaElement') textareaElement?: ElementRef<HTMLTextAreaElement>
+  @ViewChild('chatboxDrawerRef') chatboxDrawerRef?: ElementRef
 
   textareaHeight = '3.5rem'
   textareaValue: string | null = null
   currentUser: Auth | null = null
+  isChatboxDrawerOpened = true
 
   constructor(
     private store: Store<{ auth: AuthState }>
@@ -48,6 +51,14 @@ export class ChatboxComponent implements OnInit {
   private _clearTextarea() {
     this.textareaValue = ''
     this._resizeTextarea()
+  }
+
+  handleToggleDrawer() {
+    this.isChatboxDrawerOpened = !this.isChatboxDrawerOpened
+  }
+
+  handleClickCopyCode() {
+    Utils.copyToClipboard(this.conversation?.id)
   }
 
   handleInputTextarea() {

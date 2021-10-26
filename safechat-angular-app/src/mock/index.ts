@@ -14,6 +14,12 @@ export const senderB: Auth = {
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 
+export const senderC: Auth = {
+  id: '07464A4ba34733a01Deaab5645a82bad29448',
+  name: 'Nguyen Huu Nguyen Y',
+  avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
+}
+
 export const message1: Message = {
   id: 'aea3473bb56454A2074a36b1Daa8a04d29448',
   sender: senderA,
@@ -23,7 +29,7 @@ export const message1: Message = {
 
 export const message2: Message = {
   id: '454Aaea3473bb56201Daa8a0474a36bd29448',
-  sender: senderB,
+  sender: senderC,
   message: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution",
   createdAt: new Date(),
 }
@@ -42,11 +48,14 @@ export const message4: Message = {
   createdAt: new Date(),
 }
 
+export const contacts: Auth[] = [senderA, senderB]
+
 export const conversations: Conversation[] = [
   {
     id: '2074a36b1Daea3473bb56454Aaa8a04d29448',
     title: 'My suprere secret talk with hehe boi',
     thumbnail: 'https://res.cloudinary.com/i-m-rim/image/upload/v1607274448/samples/food/pot-mussels.jpg',
+    contacts: [senderA, senderC],
     messages: [message1, message2],
     files: [],
     images: [],
@@ -58,6 +67,7 @@ export const conversations: Conversation[] = [
     id: 'ba3574ab5641Dea64A44733a820a0bad29448',
     title: 'Conversation with Biru',
     thumbnail: '',
+    contacts: [senderA, senderB],
     messages: [message3, message4],
     files: [],
     images: [],

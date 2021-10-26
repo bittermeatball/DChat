@@ -6,6 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 
 import { ChatRoutingModule } from './chat-routing.module';
@@ -13,7 +16,7 @@ import { ChatComponent } from './chat.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { FormsModule } from '@angular/forms';
+import { ContactDialogComponent } from './sidebar/contact-dialog/contact-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     SidebarComponent,
     ChatboxComponent,
+    ContactDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,9 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatExpansionModule,
     MatInputModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRippleModule,
+    MatDialogModule,
   ]
 })
 export class ChatModule { }

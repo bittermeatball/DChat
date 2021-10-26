@@ -9,7 +9,7 @@ import { conversations } from 'src/mock';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  selectedConversation: Conversation | null = conversations[0]
+  selectedConversation: Conversation | null = null
 
   constructor() { }
 

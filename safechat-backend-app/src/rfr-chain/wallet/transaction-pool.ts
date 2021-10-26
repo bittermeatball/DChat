@@ -16,10 +16,14 @@ export class TransactionPool {
     }
   }
 
-  // TODO: we need to validate before push transaction
-  addTransaction(transaction: Transaction): boolean {
+  /**
+   * @throws Error relate to threshold full
+   */
+  addTransaction(transaction: Transaction): void {
+    if (this.thresholdReached()) {
+      throw new Error('Transaction pool is full now');
+    }
     this.transactions.push(transaction);
-    return this.thresholdReached();
   }
 
   validTransactions() {
@@ -33,9 +37,8 @@ export class TransactionPool {
     });
   }
 
-  transactionExists(transaction: Transaction) {
-    const exists = this.transactions.find((t) => t.id === transaction.id);
-    return exists;
+  transactionExists(transaction: Transaction): boolean {
+    return this.transactions.some((t) => t.id === transaction.id);
   }
 
   clear() {

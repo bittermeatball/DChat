@@ -17,14 +17,9 @@ export interface OutputTransaction {
 
 export class Transaction {
   public id: string = ChainUtil.id();
-  public type: TransactionType | null;
-  public input: InputTransaction | null;
-  public output: OutputTransaction | null;
-  constructor() {
-    this.type = null;
-    this.input = null;
-    this.output = null;
-  }
+  public type: TransactionType = 'stake';
+  public input: InputTransaction = {} as InputTransaction;
+  public output: OutputTransaction = {} as OutputTransaction;
 
   static newTransaction(
     senderWallet: Wallet,
@@ -67,8 +62,8 @@ export class Transaction {
 
   static verifyTransaction(transaction: Transaction) {
     return ChainUtil.verifySignature(
-      transaction.input?.from ?? '',
-      transaction.input?.signature ?? '',
+      transaction.input.from,
+      transaction.input.signature,
       ChainUtil.hash(transaction.output),
     );
   }

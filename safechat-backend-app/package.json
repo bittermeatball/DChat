@@ -7,7 +7,6 @@
     "start": "cross-env NODE_ENV=production node -r tsconfig-paths/register -r ts-node build/node-chain.js",
     "build:start": "npm run build && npm run start",
     "build": "rm -rf ./build && tsc",
-    "dev:ico": "nodemon ./src/ico",
     "dev": "cross-env NODE_ENV=development nodemon",
     "dev2": "cross-env NODE_ENV=development PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5001 nodemon",
     "dev3": "cross-env NODE_ENV=development PORT=3003 P2P_PORT=5003 PEERS=ws://localhost:5002,ws://localhost:5001 nodemon",

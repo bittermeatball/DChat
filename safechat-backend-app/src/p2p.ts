@@ -12,8 +12,15 @@ const P2P_PORT = Number.parseInt(process.env.P2P_PORT || '5001');
 //list of address to connect to
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
+export interface ChainMessageSocket {
+  type: keyof typeof MESSAGE_TYPE;
+  blocks: Block[];
+  transaction: Transaction;
+  block: Block;
+}
+
 export class P2PServer {
-  public sockets: any[];
+  public sockets: WebSocket[];
 
   constructor(
     public blockchain: RfRChain,
@@ -61,23 +68,20 @@ export class P2PServer {
 
   messageHandler(socket: WebSocket) {
     socket.on('message', (message) => {
-      const data = JSON.parse(message as any);
-      console.log('Recieved data from peer:', data.type);
+      const data = JSON.parse(message as any) as ChainMessageSocket;
+      console.log('Received data from peer:', data.type);
+      console.log(data);
 
       switch (data.type) {
         case MESSAGE_TYPE.chain:
-          this.blockchain.replaceChain(data.chain);
+          this.blockchain.replaceChain(data.blocks);
           break;
 
         case MESSAGE_TYPE.transaction:
-          let thresHoldReached = null;
           if (!this.transactionPool.transactionExists(data.transaction)) {
-            thresHoldReached = this.transactionPool.addTransaction(
-              data.transaction,
-            );
-            this.broadcastTransaction(data.transaction);
-            // console.log(thresholdReached);
+            this.transactionPool.addTransaction(data.transaction);
           }
+
           if (this.transactionPool.thresholdReached()) {
             console.log(this.blockchain.getLeader(), this.wallet.publicKey);
 
@@ -95,8 +99,8 @@ export class P2PServer {
 
         case MESSAGE_TYPE.block:
           if (this.blockchain.isValidBlock(data.block)) {
-            // this.blockchain.addBlock(data.block);
-            // this.blockchain.executeTransactions(data.block);
+            this.blockchain.addBlock(data.block);
+            this.blockchain.executeTransactions(data.block);
             this.broadcastBlock(data.block);
             this.transactionPool.clear();
           }
@@ -109,7 +113,7 @@ export class P2PServer {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.chain,
-        chain: this.blockchain.blocks,
+        blocks: this.blockchain.blocks,
       }),
     );
   }

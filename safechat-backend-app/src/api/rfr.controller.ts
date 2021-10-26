@@ -2,10 +2,27 @@ import { Request, Response } from 'express';
 import { p2pServer } from 'src/config/p2p.config';
 import { Chain } from 'src/config/rfr.config';
 import { transactionPool, wallet } from 'src/config/transaction.config';
-import { Controller, Get, Post } from '../../@fussjs/decorator/route';
+import { Controller, Get, Post } from '../@fussjs/decorator/route';
 
-@Controller('/v1/ico')
-export class ICOController {
+@Controller('/v1/chain')
+export class RFRController {
+  @Post('/mine')
+  public mine(request: Request, res: Response) {
+    Chain.addBlock(request.body);
+    p2pServer.syncChain();
+
+    return res.json({
+      msg: 'Hello',
+    });
+  }
+
+  @Get('/blocks')
+  public getBlocks(request: Request, res: Response) {
+    return res.json({
+      blocks: Chain.blocks,
+    });
+  }
+
   @Get('/transactions')
   public getTransactions(request: Request, response: Response) {
     return response.json({
@@ -13,14 +30,10 @@ export class ICOController {
     });
   }
 
-  @Get('/blocks')
-  public getBlocks(request: Request, response: Response) {
-    return response.json(Chain.blocks);
-  }
-
   @Post('/transact')
   public createTransaction(request: Request, response: Response) {
     const { to, amount, type } = request.body;
+
     const transaction = wallet.createTransaction(
       to,
       amount,
@@ -33,12 +46,7 @@ export class ICOController {
         msg: 'Invalid transaction',
       });
     }
-
     p2pServer.broadcastTransaction(transaction);
-    if (transactionPool.thresholdReached()) {
-      const block = Chain.createBlock(transactionPool.transactions, wallet);
-      p2pServer.broadcastBlock(block);
-    }
     return response.json({
       msg: 'Hello dmm',
     });
@@ -53,13 +61,6 @@ export class ICOController {
   public getBalance(request: Request, response: Response) {
     return response.json({
       balance: Chain.getBalance(wallet.publicKey),
-    });
-  }
-
-  @Get('/balance-of')
-  public getBalanceOf(request: Request, response: Response) {
-    return response.json({
-      balance: Chain.getBalance(request.body.publicKey),
     });
   }
 }

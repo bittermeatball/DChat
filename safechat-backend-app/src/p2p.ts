@@ -70,6 +70,7 @@ export class P2PServer {
     socket.on('message', (message) => {
       const data = JSON.parse(message as any) as ChainMessageSocket;
       console.log('Received data from peer:', data.type);
+      console.log(data);
 
       switch (data.type) {
         case MESSAGE_TYPE.chain:
@@ -112,7 +113,7 @@ export class P2PServer {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.chain,
-        chain: this.blockchain.blocks,
+        blocks: this.blockchain.blocks,
       }),
     );
   }

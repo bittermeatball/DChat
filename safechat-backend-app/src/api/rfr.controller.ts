@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { p2pServer } from 'src/config/p2p.config';
 import { Chain } from 'src/config/rfr.config';
 import { transactionPool, wallet } from 'src/config/transaction.config';
-import { Controller, Get, Post } from '../../@fussjs/decorator/route';
+import { Controller, Get, Post } from '../@fussjs/decorator/route';
 
 @Controller('/v1/chain')
 export class RFRController {

@@ -1,7 +1,6 @@
 import { SHA256 } from 'crypto-js';
 import { ChainUtil } from '../util/chain.util';
 import { Transaction } from '../wallet/transaction';
-import { Validators } from './validator';
 import { Wallet } from '../wallet/wallet';
 
 export class Block {
@@ -9,7 +8,7 @@ export class Block {
     public timestamp: number,
     public lastHash: string,
     public hash: string,
-    public data: any,
+    public data: Transaction[],
     public validator: string,
     public signature: string,
   ) {}
@@ -50,8 +49,9 @@ export class Block {
     );
   }
 
-  static verifyLeader(block: Block, leader: Wallet) {
-    return block.validator === leader.publicKey;
+  // Compare pub key of validator and leader
+  static verifyLeader(block: Block, leader: string) {
+    return block.validator === leader;
   }
 
   static signTransaction(transaction: Transaction, senderWallet: Wallet) {

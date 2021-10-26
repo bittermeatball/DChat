@@ -75,7 +75,7 @@ export class RfRChain {
   }
 
   getLeader() {
-    return this.stakes.getMax(this.validators.list);
+    return this.stakes.getLeader(this.validators.list);
   }
 
   getBalance(publicKey: string) {
@@ -96,8 +96,7 @@ export class RfRChain {
       Block.verifyBlock(block) &&
       Block.verifyLeader(block, this.getLeader())
     ) {
-      console.log('block valid');
-      this.addBlock(block);
+      console.log('Block valid');
       return true;
     } else {
       return false;
@@ -121,7 +120,7 @@ export class RfRChain {
 
           break;
         case TRANSACTION_TYPE.validator_fee:
-          console.log('VALIDATOR_FEE');
+          console.log(TRANSACTION_TYPE.validator_fee);
           if (this.validators.update(transaction)) {
             this.accounts.decrement(
               transaction.input.from,

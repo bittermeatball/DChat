@@ -1,6 +1,7 @@
 import { Transaction } from '../wallet/transaction';
 
 export class Stake {
+  // Public keys
   public addresses: string[];
   public balance: Record<string, number>;
 
@@ -10,7 +11,7 @@ export class Stake {
   }
 
   initialize(address: string) {
-    if (this.balance[address] == undefined) {
+    if (!this.balance[address]) {
       this.balance[address] = 0;
       this.addresses.push(address);
     }
@@ -26,14 +27,21 @@ export class Stake {
     return this.balance[address];
   }
 
-  getMax(addresses: string[]) {
-    const balance = -1;
-    let leader = undefined;
-    addresses.forEach((address) => {
-      if (this.getBalance(address) > balance) {
+  /**
+   *
+   * @param addresses are public keys
+   * @returns leader
+   */
+  getLeader(addresses: string[]): string {
+    let leader = addresses[0];
+
+    for (let i = 1; i < addresses.length; i++) {
+      const address = addresses[i];
+      if (this.getBalance(address) > this.getBalance(leader)) {
         leader = address;
       }
-    });
+    }
+
     return leader;
   }
 

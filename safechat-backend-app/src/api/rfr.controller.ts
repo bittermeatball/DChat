@@ -55,52 +55,78 @@ export class RFRController {
   //   }
   // }
 
-  /**
-   * TODO:
-   * - Get data from client and generate a key point to that data
-   * - Send the pub key back to client
-   * - When client send that key to be that we can take that data and send to client
-   */
+  // When create we need to send to the chain this transaction
   @Post('/account')
   public createAccount(req: Request, res: Response) {
     const data = req.body;
 
-    const wallet = new Wallet(data);
+    if (!data.username) {
+      return res.status(400).json({
+        code: 'PAYLOAD_SUCK',
+        message: 'You are missing username in the body',
+      });
+    }
 
-    const publicToken = p2pServer.walletManager.addWallet(wallet, data);
+    const wallet = new Wallet(data.username);
+
+    const publicToken = p2pServer.walletManager.addWallet(
+      wallet,
+      data.username,
+    );
+
+    if (!publicToken) {
+      return res.status(201).json({
+        code: 'INVALID_USERNAME',
+        message: 'This username has been used',
+      });
+    }
+
     console.log('Public token:  ' + publicToken);
 
     p2pServer.blockchain.accounts.initialize(wallet.publicKey);
 
     return res.status(201).json({
-      key: publicToken,
+      data: {
+        publicToken,
+      },
       message: 'This is your key to communicate with others',
     });
   }
 
+  // Sender must cost a fee to get what he wants
+  @Get('/account')
+  public search(req: Request, res: Response) {
+    const { s: username } = req.query;
+
+    const publicKey = p2pServer.walletManager.getPublicKeyBySearchUser(
+      username as string,
+    );
+
+    return res.status(200).json({
+      data: {
+        publicKey: publicKey,
+      },
+    });
+  }
+
+  // Sender must cost a fee to get what he wants
   @Get('/account/:publicToken')
-  public retrieveUserLocation(req: Request, res: Response) {
+  public retrieveUser(req: Request, res: Response) {
     const { publicToken } = req.params;
 
-    const location =
+    const username =
       p2pServer.walletManager.extractUserLocationByPublicToken(publicToken);
 
-    if (location) {
+    if (username) {
       return res.status(200).json({
-        location,
+        data: {
+          username,
+        },
       });
     }
 
     return res.status(400).json({
-      message: 'Your publicToken is invalid',
-    });
-  }
-
-  @Get('/account')
-  public search(req: Request, res: Response) {
-    const { s } = req.query;
-
-    return res.status(400).json({
+      code: 'BAD_PARAM',
       message: 'Your publicToken is invalid',
     });
   }

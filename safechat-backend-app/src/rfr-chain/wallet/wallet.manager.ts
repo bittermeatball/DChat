@@ -4,33 +4,44 @@ import { Wallet } from './wallet';
 interface WalletBox {
   [publicKey: string]: {
     wallet: Wallet;
-    location: any;
+    username: any;
   };
 }
 
 export class WalletManager {
   public walletBox: WalletBox = {};
 
-  public addWallet(wallet: Wallet, location: any) {
+  public addWallet(wallet: Wallet, username: any) {
     if (!this.walletBox[wallet.publicKey]) {
-      const signature = wallet.sign(ChainUtil.hash(location));
       this.walletBox[wallet.publicKey] = {
         wallet,
-        location,
+        username,
       };
       console.log(this.walletBox);
 
-      return `${wallet.publicKey}   ${signature}`;
+      return wallet.publicKey;
     }
   }
 
-  public extractUserLocationByPublicToken(secretToken: string) {
+  public extractUserLocationByPublicToken(
+    secretToken: string,
+  ): string | undefined {
     const [publicKey] = secretToken.split('   ');
 
     if (this.walletBox[publicKey]) {
-      const { location } = this.walletBox[publicKey];
-      return location;
+      const { username } = this.walletBox[publicKey];
+      return username;
     }
+    return undefined;
+  }
+
+  public getPublicKeyBySearchUser(username: string) {
+    Object.values(this.walletBox).forEach((boxData) => {
+      if (username === boxData.username) {
+        return boxData.wallet.publicKey;
+      }
+    });
+
     return undefined;
   }
 }

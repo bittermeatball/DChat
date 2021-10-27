@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { p2pServer } from 'src/config/p2p.config';
-import { Chain } from 'src/config/rfr.config';
-import { transactionPool } from 'src/config/transaction.config';
-import { Wallet } from 'src/rfr-chain/wallet/wallet';
+import { p2pServer } from '../config/p2p.config';
+import { Chain } from '../config/rfr.config';
+import { transactionPool } from '../config/transaction.config';
+import { Wallet } from '../rfr-chain/wallet/wallet';
 import { Controller, Get, Post } from '../@fussjs/decorator/route';
 
 @Controller('/v1/chain')
@@ -86,12 +86,21 @@ export class RFRController {
       p2pServer.walletManager.extractUserLocationByPublicToken(publicToken);
 
     if (location) {
-      return res.status(201).json({
+      return res.status(200).json({
         location,
       });
     }
 
-    return res.status(201).json({
+    return res.status(400).json({
+      message: 'Your publicToken is invalid',
+    });
+  }
+
+  @Get('/account')
+  public search(req: Request, res: Response) {
+    const { s } = req.query;
+
+    return res.status(400).json({
       message: 'Your publicToken is invalid',
     });
   }

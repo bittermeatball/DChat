@@ -11,9 +11,9 @@
       "noImplicitAny": true,
       "esModuleInterop": true,
       "resolveJsonModule": true,
-      "paths": {
-        "@fussjs/*": ["src/@fussjs/*"]
-      }
+      // "paths": {
+      //   "@fussjs/*": ["src/@fussjs/*"]
+      // }
     },
     "include": [
         "./**/*"

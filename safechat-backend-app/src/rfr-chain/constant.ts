@@ -1,5 +1,5 @@
 export const TRANSACTION_FEE = 1;
-export const TRANSACTION_THRESHOLD = 5;
+export const TRANSACTION_THRESHOLD = 2;
 export const INITIAL_BALANCE = 100;
 export const SECRET = 'Super-secret';
 export const TRANSACTION_TYPE = {

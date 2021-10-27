@@ -1,11 +1,15 @@
-import { SECRET, TRANSACTION_TYPE } from '../constant';
+import { TRANSACTION_TYPE } from '../constant';
 import { Account } from './account';
 import { Block } from './block';
 import { Stake } from './stake';
 import { Transaction } from '../wallet/transaction';
 import { Validators } from './validator';
 import { Wallet } from '../wallet/wallet';
-
+/**
+ * TODO:
+ * Change the way create transaction
+ * Change the flow of executing transactions
+ */
 export class RfRChain {
   public blocks: Block[];
   public accounts: Account;
@@ -34,11 +38,11 @@ export class RfRChain {
     this.blocks = newChain;
   }
 
-  addBlock(data: any) {
+  addBlock(data: any, wallet: Wallet) {
     const block = Block.createBlock(
       this.blocks[this.blocks.length - 1],
       data,
-      new Wallet(SECRET),
+      wallet,
     );
 
     this.blocks.push(block);

@@ -5,6 +5,7 @@ import { RfRChain } from './rfr-chain/core/chain';
 import { Transaction } from './rfr-chain/wallet/transaction';
 import { TransactionPool } from './rfr-chain/wallet/transaction-pool';
 import { Wallet } from './rfr-chain/wallet/wallet';
+import { WalletManager } from './rfr-chain/wallet/wallet.manager';
 
 //declare the peer to peer server port
 const P2P_PORT = Number.parseInt(process.env.P2P_PORT || '5001');
@@ -13,6 +14,7 @@ const P2P_PORT = Number.parseInt(process.env.P2P_PORT || '5001');
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 export interface ChainMessageSocket {
+  walletSender: Wallet;
   type: keyof typeof MESSAGE_TYPE;
   blocks: Block[];
   transaction: Transaction;
@@ -21,13 +23,14 @@ export interface ChainMessageSocket {
 
 export class P2PServer {
   public sockets: WebSocket[];
+  public walletManager: WalletManager;
 
   constructor(
     public blockchain: RfRChain,
     public transactionPool: TransactionPool,
-    public wallet: Wallet,
   ) {
     this.sockets = [];
+    this.walletManager = new WalletManager();
   }
 
   listen() {
@@ -78,20 +81,24 @@ export class P2PServer {
           break;
 
         case MESSAGE_TYPE.transaction:
-          if (!this.transactionPool.transactionExists(data.transaction)) {
-            this.transactionPool.addTransaction(data.transaction);
-          }
+          const { walletSender } = data;
+          if (
+            !this.transactionPool.transactionExists(data.transaction) &&
+            walletSender
+          ) {
+            console.log(this.blockchain.getLeader(), walletSender.publicKey);
 
-          if (this.transactionPool.thresholdReached()) {
-            console.log(this.blockchain.getLeader(), this.wallet.publicKey);
-
-            if (this.blockchain.getLeader() == this.wallet.publicKey) {
-              console.log('Creating block');
-              const block = this.blockchain.createBlock(
-                this.transactionPool.transactions,
-                this.wallet,
-              );
-              this.broadcastBlock(block);
+            if (!this.transactionPool.thresholdReached()) {
+              this.transactionPool.addTransaction(data.transaction);
+            } else {
+              if (this.blockchain.getLeader() === walletSender.publicKey) {
+                console.log('Creating block');
+                const block = this.blockchain.createBlock(
+                  this.transactionPool.transactions,
+                  walletSender,
+                );
+                this.broadcastBlock(block, data.walletSender);
+              }
             }
           }
 
@@ -99,9 +106,8 @@ export class P2PServer {
 
         case MESSAGE_TYPE.block:
           if (this.blockchain.isValidBlock(data.block)) {
-            this.blockchain.addBlock(data.block);
+            this.blockchain.addBlock(data.block, data.walletSender);
             this.blockchain.executeTransactions(data.block);
-            this.broadcastBlock(data.block);
             this.transactionPool.clear();
           }
           break;
@@ -124,33 +130,39 @@ export class P2PServer {
     });
   }
 
-  broadcastTransaction(transaction: Transaction) {
+  broadcastTransaction(transaction: Transaction, walletSender: Wallet) {
     this.sockets.forEach((socket) => {
-      this.sendTransaction(socket, transaction);
+      this.sendTransaction(socket, transaction, walletSender);
     });
   }
 
-  sendTransaction(socket: WebSocket, transaction: Transaction) {
+  sendTransaction(
+    socket: WebSocket,
+    transaction: Transaction,
+    walletSender: Wallet,
+  ) {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.transaction,
-        transaction: transaction,
-      }),
+        transaction,
+        walletSender,
+      } as ChainMessageSocket),
     );
   }
 
-  broadcastBlock(block: Block) {
+  broadcastBlock(block: Block, walletSender: Wallet) {
     this.sockets.forEach((socket) => {
-      this.sendBlock(socket, block);
+      this.sendBlock(socket, block, walletSender);
     });
   }
 
-  sendBlock(socket: WebSocket, block: Block) {
+  sendBlock(socket: WebSocket, block: Block, walletSender: Wallet) {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.block,
         block: block,
-      }),
+        walletSender,
+      } as ChainMessageSocket),
     );
   }
 }

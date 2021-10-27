@@ -3,7 +3,6 @@ import { TransactionType } from '../interface/transaction';
 import { ChainUtil } from '../util/chain.util';
 import { RfRChain } from '../core/chain';
 import { Transaction } from './transaction';
-import { TransactionPool } from './transaction-pool';
 
 export class Wallet {
   public balance;
@@ -11,9 +10,12 @@ export class Wallet {
   public publicKey;
 
   constructor(secret: string) {
+    console.log(secret);
+
     this.balance = INITIAL_BALANCE;
     this.keyPair = ChainUtil.genKeyPair(secret);
     this.publicKey = this.keyPair.getPublic('hex');
+    console.log(this.publicKey);
   }
 
   toString() {
@@ -31,7 +33,6 @@ export class Wallet {
     amount: number,
     type: TransactionType,
     blockchain: RfRChain,
-    transactionPool: TransactionPool,
   ) {
     this.balance = this.getBalance(blockchain);
     if (amount > this.balance) {
@@ -45,7 +46,6 @@ export class Wallet {
       console.log('Can not create transaction');
       return;
     }
-    transactionPool.addTransaction(transaction);
     return transaction;
   }
 

@@ -16,13 +16,7 @@ export class TransactionPool {
     }
   }
 
-  /**
-   * @throws Error relate to threshold full
-   */
   addTransaction(transaction: Transaction): void {
-    if (this.thresholdReached()) {
-      throw new Error('Transaction pool is full now');
-    }
     this.transactions.push(transaction);
   }
 

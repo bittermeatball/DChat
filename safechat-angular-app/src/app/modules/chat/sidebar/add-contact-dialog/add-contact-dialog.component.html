@@ -1,0 +1,15 @@
+<div>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Contact code</mat-label>
+    <input matInput [(ngModel)]="contactCode" />
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="w-full mb-3"
+    (click)="handleAddContact()"
+  >
+    <mat-icon class="mr-1">person_add</mat-icon>
+    Add contact
+  </button>
+</div>

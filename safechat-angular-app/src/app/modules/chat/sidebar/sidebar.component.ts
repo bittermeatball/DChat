@@ -6,6 +6,7 @@ import { Conversation } from 'src/app/core/models/conversation.model';
 import { selectCurrentUser } from 'src/app/store/auth/auth.selectors';
 import { AuthState } from 'src/app/store/auth/auth.state';
 import { contacts, conversations } from 'src/mock';
+import { AddContactDialogComponent } from './add-contact-dialog/add-contact-dialog.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 
 enum PANEL {
@@ -46,6 +47,33 @@ export class SidebarComponent implements OnInit {
     this.onSelectConversation.emit(conversation);
   }
 
+  handleAddConversation(contact: Auth) {
+    const _user = this.currentUser as Auth
+    const _conversation = {
+      id: contact.id,
+      title: `Conversation with ${contact.name}`,
+      thumbnail: contact.avatar,
+      contacts: [_user, contact],
+      messages: [],
+      images: [],
+      files: [],
+    }
+    
+    this.conversations.push(_conversation);
+    this.onSelectConversation.emit(_conversation);
+  }
+
+  handleAddContact(contactCode: string) {
+    const _contact = {
+      id: contactCode,
+      name: contactCode,
+      avatar: 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
+    }
+
+    this.contacts.push(_contact);
+    this.handleAddConversation(_contact);
+  }
+
   handleSelectContact(contact: Auth): void {
     const dialogRef = this.dialog.open(ContactDialogComponent, {
       width: '320px',
@@ -53,24 +81,19 @@ export class SidebarComponent implements OnInit {
     });
 
     dialogRef.componentInstance.onChat.subscribe((contact: Auth) => {
-      const _user = this.currentUser as Auth
-      const _conversation = {
-        id: Math.random() + '',
-        title: `Conversation with ${contact.name}`,
-        thumbnail: contact.avatar,
-        contacts: [_user, contact],
-        messages: [],
-        images: [],
-        files: [],
-      }
-      
-      this.conversations.push(_conversation);
-      this.onSelectConversation.emit(_conversation);
+      this.handleAddConversation(contact)
     })
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  handleShowContactDialog(): void {
+    const dialogRef = this.dialog.open(AddContactDialogComponent, {
+      width: '320px',
+      data: {}
     });
+
+    dialogRef.componentInstance.onAddContact.subscribe((contactCode: string) => {
+      this.handleAddContact(contactCode)
+    })
   }
 
 }

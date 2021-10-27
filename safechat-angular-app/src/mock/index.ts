@@ -3,19 +3,19 @@ import { Conversation } from 'src/app/core/models/conversation.model';
 import { Message } from 'src/app/core/models/message.model';
 
 export const senderA: Auth = {
-  id: 'aea20741Dabb5645a8a0ba3473364A4d29448',
+  id: `my-user-id-${Math.random()}`.replace('.', '-'),
   name: 'Dang Ngoc Phu',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 
 export const senderB: Auth = {
-  id: '1Deaab5645a8207464A4ba34733a0bad29448',
+  id: `my-user-id-${Math.random()}`.replace('.', '-'),
   name: 'Nguyen Ngoc Quang',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 
 export const senderC: Auth = {
-  id: '07464A4ba34733a01Deaab5645a82bad29448',
+  id: `my-user-id-${Math.random()}`.replace('.', '-'),
   name: 'Nguyen Huu Nguyen Y',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }

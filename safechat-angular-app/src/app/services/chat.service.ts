@@ -10,13 +10,18 @@ export class ChatService {
   private _peer
   private _peerId = ''
   private _peerConnectionReady = new BehaviorSubject<boolean>(false);
+  private _peerConnection = new BehaviorSubject<DataConnection | null>(null);
 
   public peerReady: Observable<boolean> = this._peerConnectionReady.asObservable();
+  public peerConnection: Observable<DataConnection | null> = this._peerConnection.asObservable();
 
   constructor() {
-    const rd = `my-custom-id-${Math.random()}`.replace('.', '-')
+    // => gửi backend IP + abc + def
+    // => nhận key từ backend
+    const tokenFromBackend = `my-custom-id-${Math.random()}`.replace('.', '-')
 
-    this._peer = new Peer(rd, {
+    // Khởi tạo 
+    this._peer = new Peer(tokenFromBackend, {
       host: 'localhost',
       port: 9000,
       path: '/'
@@ -25,6 +30,12 @@ export class ChatService {
     this._peer.on('open', (id: string) => {
       this._peerId = id;
       this._peerConnectionReady.next(true);
+    });
+
+    this._peer.on('connection', (connection: DataConnection) => {
+      console.log('Connection established successfully')
+
+      this._peerConnection.next(connection)
     });
   }
 
@@ -45,5 +56,4 @@ export class ChatService {
   public getPeerId() {
     return this._peerId;
   }
-
 }

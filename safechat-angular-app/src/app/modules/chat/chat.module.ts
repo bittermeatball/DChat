@@ -20,6 +20,7 @@ import { ContactDialogComponent } from './sidebar/contact-dialog/contact-dialog.
 
 
 import { ChatService } from 'src/app/services/chat.service';
+import { AddContactDialogComponent } from './sidebar/add-contact-dialog/add-contact-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ChatService } from 'src/app/services/chat.service';
     SidebarComponent,
     ChatboxComponent,
     ContactDialogComponent,
+    AddContactDialogComponent,
   ],
   imports: [
     CommonModule,

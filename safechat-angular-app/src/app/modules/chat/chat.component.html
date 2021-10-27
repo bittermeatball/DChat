@@ -5,11 +5,22 @@
       <app-sidebar
         (onSelectConversation)="handleSelectConversation($event)"
       ></app-sidebar>
+      <p class="text-lg text-gray-600 mt-3">
+        Your code: <b>{{ chatConnectionMyPeerId }}</b>
+        <button
+          class="ml-3"
+          mat-mini-fab
+          color="light"
+          (click)="handleCopyConnectionPeerId()"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </p>
     </div>
     <div class="flex-1">
       <div
         *ngIf="!selectedConversation; else chatBox"
-        class="w-full h-full flex items-center justify-center"
+        class="w-full h-full flex flex-col items-center justify-center"
       >
         <div
           class="

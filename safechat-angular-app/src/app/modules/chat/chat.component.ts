@@ -58,7 +58,6 @@ export class ChatComponent implements OnInit {
 
   handleSubmitMessage(message: Message) {
     if (this.chatConnection) {
-      console.log('Sent message')
       this.chatConnection?.send(message);
       this.selectedConversation?.messages.push(message)
     }

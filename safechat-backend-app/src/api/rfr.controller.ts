@@ -103,13 +103,13 @@ export class RFRController {
     const ownerPublicKey = req.headers['own-public-key'];
     const { s: username } = req.query;
 
-    const publicKey = p2pServer.walletManager.getPublicKeyBySearchUser(
+    const publicToken = p2pServer.walletManager.getPublicKeyBySearchUser(
       username as string,
     );
 
     return res.status(200).json({
       data: {
-        publicKey: publicKey,
+        publicToken,
       },
     });
   }

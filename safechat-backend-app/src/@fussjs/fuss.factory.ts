@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { Express } from 'express';
 import { ModuleResolver } from './resolver/module.resolver';
 import cors from 'cors';
+
 export class FussFactory {
   private constructor(private app: Express) {}
 

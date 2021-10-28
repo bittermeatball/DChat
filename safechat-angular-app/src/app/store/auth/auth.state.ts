@@ -1,8 +1,7 @@
 import { Auth } from 'src/app/core/models/auth.model';
-import { senderB } from 'src/mock';
 
 export const authState = {
-  currentUser: senderB as Auth,
+  currentUser: null as Auth | null,
 };
 
 export type AuthState = typeof authState;

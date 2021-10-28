@@ -9,4 +9,8 @@ export class Utils {
     }) as unknown as EventListenerOrEventListenerObject;
     document.execCommand('copy');
   }
+
+  static shortenToken(token: string) {
+    return token.substring(0, 4) + '...' + token.substring(token.length - 4, token.length);
+  }
 }

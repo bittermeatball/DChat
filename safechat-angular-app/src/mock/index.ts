@@ -4,19 +4,19 @@ import { Message } from 'src/app/core/models/message.model';
 
 export const senderA: Auth = {
   id: `my-user-id-${Math.random()}`.replace('.', '-'),
-  name: 'Dang Ngoc Phu',
+  username: 'Dang Ngoc Phu',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 
 export const senderB: Auth = {
   id: `my-user-id-${Math.random()}`.replace('.', '-'),
-  name: 'Nguyen Ngoc Quang',
+  username: 'Nguyen Ngoc Quang',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 
 export const senderC: Auth = {
   id: `my-user-id-${Math.random()}`.replace('.', '-'),
-  name: 'Nguyen Huu Nguyen Y',
+  username: 'Nguyen Huu Nguyen Y',
   avatar: 'https://res.cloudinary.com/i-m-rim/image/upload/v1627479900/dsc/dsc_icon_light_e46gne.png',
 }
 

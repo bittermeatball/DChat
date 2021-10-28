@@ -35,11 +35,7 @@ export class ChatboxComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  conversationShortenId = () => this.conversation?.id?.slice(0, 4) + "..." +
-    this.conversation?.id?.slice(
-      (this.conversation?.id?.length || 0) - 4,
-      this.conversation?.id?.length
-    )
+  conversationShortenId = () => Utils.shortenToken(this.conversation?.id || '')
 
   private _resizeTextarea() {
     const _el = this.textareaElement?.nativeElement
@@ -73,12 +69,14 @@ export class ChatboxComponent implements OnInit {
   }
 
   handleSubmitMessage() {
-    this.submitMessage.emit({
-      sender: this.currentUser,
-      message: this.textareaValue,
-      createdAt: new Date()
-    })
-    this._clearTextarea()
+    if (this.textareaValue) {
+      this.submitMessage.emit({
+        sender: this.currentUser,
+        message: this.textareaValue,
+        createdAt: new Date()
+      })
+      this._clearTextarea()
+    }
   }
 
 }

@@ -23,11 +23,7 @@ export class ContactDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  contactShortenId = () => this.data.contact?.id?.slice(0, 4) + "..." +
-    this.data.contact?.id?.slice(
-      (this.data.contact?.id?.length || 0) - 4,
-      this.data.contact?.id?.length
-    )
+  contactShortenId = () => Utils.shortenToken(this.data.contact?.id || '')
 
   handleClickChat() {
     this.onChat.emit(this.data.contact)

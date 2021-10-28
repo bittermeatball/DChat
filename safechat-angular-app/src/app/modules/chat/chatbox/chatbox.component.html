@@ -88,11 +88,11 @@
               mr-3
             "
             [src]="message.sender?.avatar"
-            [alt]="message.sender?.name"
+            [alt]="message.sender?.username"
           />
           <div class="p-3 rounded-md shadow-md">
             <p class="flex mb-1">
-              <b>{{ message.sender?.name }}</b>
+              <b>{{ message.sender?.username || message.sender?.id }}</b>
               <small class="text-gray-500 ml-2">
                 {{ message.createdAt | date: "short" }}
               </small>

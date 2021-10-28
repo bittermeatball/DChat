@@ -1,11 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Auth } from 'src/app/core/models/auth.model';
 import { Conversation } from 'src/app/core/models/conversation.model';
 import { selectCurrentUser } from 'src/app/store/auth/auth.selectors';
 import { AuthState } from 'src/app/store/auth/auth.state';
-import { contacts, conversations } from 'src/mock';
 import { AddContactDialogComponent } from './add-contact-dialog/add-contact-dialog.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 
@@ -24,17 +24,26 @@ export class SidebarComponent implements OnInit {
   @Output() onSelectConversation = new EventEmitter<Conversation>();
   @Output() onCreateConversation = new EventEmitter<Conversation>();
 
+  @Output() onAddConversation = new EventEmitter<Conversation>();
+  @Output() onAddContact = new EventEmitter<Auth>();
+
+  @Input() conversations: Conversation[] = [];
+  @Input() contacts: Auth[] = [];
+
+  private _baseUrl: string;
+
   PANEL = PANEL
   activePanel = PANEL.CONVERSATION
-  conversations = conversations
-  contacts = contacts
 
   currentUser: Auth | null = null
 
   constructor(
     private store: Store<{ auth: AuthState }>,
-    public dialog: MatDialog
+    private http: HttpClient,
+    public dialog: MatDialog,
+    @Inject('API_URL') baseUrl: string = '',
   ) {
+    this._baseUrl = baseUrl;
     this.store.pipe(select(selectCurrentUser)).subscribe(currentUser => {
       this.currentUser = currentUser
     })
@@ -51,7 +60,7 @@ export class SidebarComponent implements OnInit {
     const _user = this.currentUser as Auth
     const _conversation = {
       id: contact.id,
-      title: `Conversation with ${contact.name}`,
+      title: `Conversation with ${contact.username}`,
       thumbnail: contact.avatar,
       contacts: [_user, contact],
       messages: [],
@@ -59,19 +68,34 @@ export class SidebarComponent implements OnInit {
       files: [],
     }
     
-    this.conversations.push(_conversation);
+    this.onAddConversation.emit(_conversation);
     this.onSelectConversation.emit(_conversation);
   }
 
-  handleAddContact(contactCode: string) {
-    const _contact = {
-      id: contactCode,
-      name: contactCode,
-      avatar: 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
+  handleAddContact(userToken: string, username: string) {
+    const _addContact = (payload: any) => {
+      const _contact = {
+        id: userToken,
+        username: payload.data.username || userToken,
+        avatar: 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
+      }
+  
+      this.handleAddConversation(_contact);
+      this.onAddContact.emit(_contact);
     }
 
-    this.contacts.push(_contact);
-    this.handleAddConversation(_contact);
+    if (username) {
+      this.http.get(`${this._baseUrl}/account`, {
+        params: {
+          s: userToken,
+        },
+        headers: {
+          'own-public-key': this.currentUser?.id as string,
+        }
+      }).subscribe((payload: any) => _addContact(payload))
+    } else if (userToken) {
+      this.http.get(`${this._baseUrl}/account/${userToken}`).subscribe((payload: any) => _addContact(payload))
+    }
   }
 
   handleSelectContact(contact: Auth): void {
@@ -91,8 +115,8 @@ export class SidebarComponent implements OnInit {
       data: {}
     });
 
-    dialogRef.componentInstance.onAddContact.subscribe((contactCode: string) => {
-      this.handleAddContact(contactCode)
+    dialogRef.componentInstance.onAddContact.subscribe(({ userId, username }) => {
+      this.handleAddContact(userId, username)
     })
   }
 

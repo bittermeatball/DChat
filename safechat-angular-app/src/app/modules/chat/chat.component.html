@@ -4,9 +4,13 @@
     <div class="w-72 p-4">
       <app-sidebar
         (onSelectConversation)="handleSelectConversation($event)"
+        (onAddConversation)="handleAddConversation($event)"
+        (onAddContact)="handleAddContact($event)"
+        [contacts]="contacts"
+        [conversations]="conversations"
       ></app-sidebar>
-      <p class="text-lg text-gray-600 mt-3">
-        Your code: <b>{{ chatConnectionMyPeerId }}</b>
+      <p class="text-lg text-gray-600 mt-3 flex items-center">
+        Your code: <b>{{ chatConnectionMyShortenPeerId() }}</b>
         <button
           class="ml-3"
           mat-mini-fab

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express, { Express } from 'express';
 import { ModuleResolver } from './resolver/module.resolver';
-
+import cors from 'cors';
 export class FussFactory {
   private constructor(private app: Express) {}
 
@@ -9,6 +9,7 @@ export class FussFactory {
     const instance = new FussFactory(express());
     instance.app.use(express.urlencoded({ extended: true }));
     instance.app.use(express.json());
+    instance.app.use(cors());
     return instance;
   }
 

@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../store/auth/auth.state';
 import { setCurrentUser } from '../store/auth/auth.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { VideoDialogComponent } from '../modules/chat/video-dialog/video-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class ChatService {
   private _peerHost: string;
   private _peerPort: number;
 
-  private _peer: any
+  private _peer: Peer | undefined = undefined
   private _peerId = ''
   private _peerConnectionReady = new BehaviorSubject<boolean>(false);
   private _peerConnection = new BehaviorSubject<DataConnection | null>(null);
@@ -28,6 +30,7 @@ export class ChatService {
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     private store: Store<AuthState>,
+    private dialog: MatDialog, 
     @Inject('API_URL') baseUrl: string = '',
     @Inject('PEER_HOST') peerHost: string = '',
     @Inject('PEER_PORT') peerPort: number = 9000,
@@ -79,6 +82,34 @@ export class ChatService {
 
       this._peerConnection.next(connection)
     });
+
+    this._peer.on('call', (mediaConnection: Peer.MediaConnection) => {
+      const confirm = window.confirm("Will you accept the call")
+
+      if (confirm) {
+        navigator.mediaDevices
+          .getUserMedia({video: true, audio: true})
+          .then((localStream: MediaStream) => {
+            const videoDialogRef = this.dialog.open(VideoDialogComponent, {
+              height: '400px',
+              width: '600px',
+            });
+            videoDialogRef.componentInstance.attachStreamToLocal(localStream)
+
+            mediaConnection.answer(localStream);
+            mediaConnection.on("stream", function (remoteStream: MediaStream) {
+              videoDialogRef.componentInstance.attachStreamToRemote(remoteStream)
+            })
+            mediaConnection.on('close', function (){
+              alert("The videocall has finished");
+            });
+          })
+          .catch(error => {
+            console.log("Error during listening call")
+            console.log(error)
+          })
+      }
+    })
   }
 
   public connectToPeer(peerId: string): DataConnection | null {
@@ -97,5 +128,9 @@ export class ChatService {
 
   public getPeerId() {
     return this._peerId;
+  }
+
+  public getPeer() {
+    return this._peer;
   }
 }

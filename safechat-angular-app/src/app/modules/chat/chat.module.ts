@@ -25,6 +25,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { ChatService } from 'src/app/services/chat.service';
 import { AddContactDialogComponent } from './sidebar/add-contact-dialog/add-contact-dialog.component';
 import { environment } from 'src/environments/environment';
+import { VideoDialogComponent } from './video-dialog/video-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +36,13 @@ import { environment } from 'src/environments/environment';
     ContactDialogComponent,
     AddContactDialogComponent,
     LoginComponent,
+    VideoDialogComponent,
   ],
   entryComponents: [
     ContactDialogComponent,
     AddContactDialogComponent,
     LoginComponent,
+    VideoDialogComponent,
   ],
   imports: [
     CommonModule,

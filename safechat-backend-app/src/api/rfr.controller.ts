@@ -10,14 +10,18 @@ export class RFRController {
   @Get('/blocks')
   public getBlocks(req: Request, res: Response) {
     return res.json({
-      blocks: Chain.blocks,
+      data: {
+        blocks: Chain.blocks,
+      },
     });
   }
 
   @Get('/transactions')
   public getTransactions(req: Request, res: Response) {
     return res.json({
-      transactions: transactionPool.transactions,
+      data: {
+        transactions: transactionPool.transactions,
+      },
     });
   }
 
@@ -96,6 +100,7 @@ export class RFRController {
   // Sender must cost a fee to get what he wants
   @Get('/account')
   public search(req: Request, res: Response) {
+    const ownerPublicKey = req.headers['own-public-key'];
     const { s: username } = req.query;
 
     const publicKey = p2pServer.walletManager.getPublicKeyBySearchUser(

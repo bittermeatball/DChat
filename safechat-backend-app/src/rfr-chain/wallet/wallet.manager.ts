@@ -1,4 +1,3 @@
-import { ChainUtil } from '../util/chain.util';
 import { Wallet } from './wallet';
 
 interface WalletBox {
@@ -24,10 +23,8 @@ export class WalletManager {
   }
 
   public extractUserLocationByPublicToken(
-    secretToken: string,
+    publicKey: string,
   ): string | undefined {
-    const [publicKey] = secretToken.split('   ');
-
     if (this.walletBox[publicKey]) {
       const { username } = this.walletBox[publicKey];
       return username;

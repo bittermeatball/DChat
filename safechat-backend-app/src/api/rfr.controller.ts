@@ -79,7 +79,7 @@ export class RFRController {
     );
 
     if (!publicToken) {
-      return res.status(201).json({
+      return res.status(400).json({
         code: 'INVALID_USERNAME',
         message: 'This username has been used',
       });

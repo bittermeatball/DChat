@@ -1,7 +1,11 @@
 <div>
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>Contact code</mat-label>
-    <input matInput [(ngModel)]="contactCode" />
+    <mat-label>Add by user id</mat-label>
+    <input matInput [(ngModel)]="userId" />
+  </mat-form-field>
+  <mat-form-field *ngIf="!userId" appearance="fill" class="w-full">
+    <mat-label>Add by username</mat-label>
+    <input matInput [(ngModel)]="username" />
   </mat-form-field>
   <button
     mat-raised-button

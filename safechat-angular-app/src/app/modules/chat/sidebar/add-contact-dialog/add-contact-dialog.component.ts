@@ -7,7 +7,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-contact-dialog.component.scss']
 })
 export class AddContactDialogComponent implements OnInit {
-  contactCode: string = ''
+  userId: string = ''
+  username: string = ''
   @Output() onAddContact = new EventEmitter();
 
   constructor(
@@ -18,7 +19,7 @@ export class AddContactDialogComponent implements OnInit {
   }
 
   handleAddContact(): void {
-    this.onAddContact.emit(this.contactCode)
+    this.onAddContact.emit({ userId: this.userId, username: this.username })
     this.dialogRef.close()
   }
 

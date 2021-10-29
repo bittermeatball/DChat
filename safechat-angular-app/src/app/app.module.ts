@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { AuthModule } from './modules/auth/auth.module';
 import { appReducer } from './store/app.reducer';
 import { NetworkInterceptor } from './core/interceptors/network.interceptor';
 import { ChatModule } from './modules/chat/chat.module';
@@ -23,7 +22,6 @@ import { authReducer } from './store/auth/auth.reducer';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AuthModule,
     ChatModule,
     StoreModule.forRoot({ app: appReducer, auth: authReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),

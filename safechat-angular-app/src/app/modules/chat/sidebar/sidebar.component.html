@@ -25,7 +25,7 @@
           </p>
           <div class="conversation-item-description">
             <p class="mb-1 text-xs">
-              {{ conversation.lastMessageSender?.name }}:
+              {{ conversation.lastMessageSender?.username }}:
               {{ conversation.lastMessage?.message?.slice(0, 20) }}...
             </p>
             <p class="text-xs">
@@ -53,11 +53,11 @@
         <div class="flex items-center gap-2">
           <img
             [src]="contact.avatar"
-            [alt]="contact.name"
+            [alt]="contact.username"
             class="w-8 h-8 object-cover"
           />
           <p class="mb-0">
-            <b>{{ contact.name }}</b>
+            <b>{{ contact.username || contact.id }}</b>
           </p>
         </div>
       </div>

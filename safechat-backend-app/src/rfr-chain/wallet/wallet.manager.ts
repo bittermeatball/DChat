@@ -11,34 +11,41 @@ export class WalletManager {
   public walletBox: WalletBox = {};
 
   public addWallet(wallet: Wallet, username: any) {
-    if (!this.walletBox[wallet.publicKey]) {
-      this.walletBox[wallet.publicKey] = {
+    if (!this.walletBox[wallet.publicToken]) {
+      this.walletBox[wallet.publicToken] = {
         wallet,
         username,
       };
       console.log(this.walletBox);
 
-      return wallet.publicKey;
+      return wallet.publicToken;
     }
   }
 
   public extractUserLocationByPublicToken(
-    publicKey: string,
+    publicToken: string,
   ): string | undefined {
-    if (this.walletBox[publicKey]) {
-      const { username } = this.walletBox[publicKey];
+    if (this.walletBox[publicToken]) {
+      const { username } = this.walletBox[publicToken];
       return username;
     }
     return undefined;
   }
 
   public getPublicKeyBySearchUser(username: string) {
-    Object.values(this.walletBox).forEach((boxData) => {
-      if (username === boxData.username) {
-        return boxData.wallet.publicKey;
+    const boxWallets = Object.values(this.walletBox);
+
+    for (let i = 0; i < boxWallets.length; i++) {
+      const boxWallet = boxWallets[i];
+      if (username === boxWallet.username) {
+        return boxWallet.wallet.publicToken;
       }
-    });
+    }
 
     return undefined;
+  }
+
+  public getWalletByPublicKey(publicToken: string) {
+    return this.walletBox[publicToken].wallet;
   }
 }

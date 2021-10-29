@@ -1,0 +1,7 @@
+export const PUBLIC_TOKEN_HEADER = 'own-public-key';
+
+export const ERROR_CODE = {
+  BAD_PAYLOAD: 'BAD_PAYLOAD',
+  CREATE_TRANSACTION_FAIL: 'CREATE_TRANSACTION_FAIL',
+  BAD_HEADER: 'BAD_HEADER',
+};

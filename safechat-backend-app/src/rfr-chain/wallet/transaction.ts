@@ -31,6 +31,7 @@ export class Transaction {
       console.log(`Amount : ${amount} exceeds the balance`);
       return;
     }
+    console.log('Before generate transaction');
 
     return Transaction.generateTransaction(senderWallet, to, amount, type);
   }

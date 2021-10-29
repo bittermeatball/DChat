@@ -3,11 +3,13 @@ import { TransactionType } from '../interface/transaction';
 import { ChainUtil } from '../util/chain.util';
 import { RfRChain } from '../core/chain';
 import { Transaction } from './transaction';
+import jwt from 'jsonwebtoken';
 
 export class Wallet {
   public balance;
   public keyPair;
   public publicKey;
+  public publicToken;
 
   constructor(secret: string) {
     console.log(secret);
@@ -15,7 +17,13 @@ export class Wallet {
     this.balance = INITIAL_BALANCE;
     this.keyPair = ChainUtil.genKeyPair(secret);
     this.publicKey = this.keyPair.getPublic('hex');
-    console.log(this.publicKey);
+    this.publicToken = jwt
+      .sign(this.publicKey, secret)
+      .split('')
+      .reverse()
+      .join('');
+
+    console.log(this.publicToken);
   }
 
   toString() {
@@ -25,6 +33,9 @@ export class Wallet {
   }
 
   sign(dataHash: string) {
+    console.log('Before sign data');
+    console.log(dataHash);
+
     return this.keyPair.sign(dataHash).toHex();
   }
 

@@ -4,6 +4,7 @@ import { Chain } from '../config/rfr.config';
 import { transactionPool } from '../config/transaction.config';
 import { Wallet } from '../rfr-chain/wallet/wallet';
 import { Controller, Get, Post } from '../@fussjs/decorator/route';
+import { ERROR_CODE, PUBLIC_TOKEN_HEADER } from './constant';
 
 @Controller('/v1/chain')
 export class RFRController {
@@ -100,12 +101,37 @@ export class RFRController {
   // Sender must cost a fee to get what he wants
   @Get('/account')
   public search(req: Request, res: Response) {
-    const ownerPublicKey = req.headers['own-public-key'];
+    const ownerPublicToken = req.headers[PUBLIC_TOKEN_HEADER];
     const { s: username } = req.query;
 
     const publicToken = p2pServer.walletManager.getPublicKeyBySearchUser(
       username as string,
     );
+
+    if (!publicToken) {
+      return res.status(400).json({
+        code: 'INVALID_USERNAME',
+        message: `${username} does not exist`,
+      });
+    }
+
+    // const wallet = p2pServer.walletManager.getWalletByPublicKey(publicToken);
+
+    // const transaction = wallet.createTransaction(
+    //   ownerPublicToken as string,
+    //   10,
+    //   'transaction',
+    //   Chain,
+    // );
+
+    // if (!transaction) {
+    //   return res.status(400).json({
+    //     code: ERROR_CODE.CREATE_TRANSACTION_FAIL,
+    //     message: 'Can not create transaction',
+    //   });
+    // }
+
+    // p2pServer.broadcastTransaction(transaction, wallet);
 
     return res.status(200).json({
       data: {
@@ -118,9 +144,35 @@ export class RFRController {
   @Get('/account/:publicToken')
   public retrieveUser(req: Request, res: Response) {
     const { publicToken } = req.params;
+    const ownerPublicToken = req.headers[PUBLIC_TOKEN_HEADER] as string;
+
+    if (!ownerPublicToken) {
+      return res.status(400).json({
+        code: ERROR_CODE.BAD_HEADER,
+        message: 'Missing header own-public-key',
+      });
+    }
 
     const username =
       p2pServer.walletManager.extractUserLocationByPublicToken(publicToken);
+
+    // const wallet = p2pServer.walletManager.getWalletByPublicKey(publicToken);
+
+    // const transaction = wallet.createTransaction(
+    //   ownerPublicToken,
+    //   10,
+    //   'transaction',
+    //   Chain,
+    // );
+
+    // if (!transaction) {
+    //   return res.status(400).json({
+    //     code: 'CREATE_TRANSACTION_FAILED',
+    //     message: 'Can not create transaction',
+    //   });
+    // }
+
+    // p2pServer.broadcastTransaction(transaction, wallet);
 
     if (username) {
       return res.status(200).json({

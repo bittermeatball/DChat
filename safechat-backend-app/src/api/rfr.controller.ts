@@ -63,7 +63,7 @@ export class RFRController {
   // When create we need to send to the chain this transaction
   @Post('/account')
   public createAccount(req: Request, res: Response) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     const data = req.body;
 
@@ -74,7 +74,7 @@ export class RFRController {
       });
     }
 
-    const wallet = new Wallet(data.username + ip);
+    const wallet = new Wallet(data.username);
 
     const publicToken = p2pServer.walletManager.addWallet(
       wallet,
@@ -102,7 +102,7 @@ export class RFRController {
 
   @Post('/login')
   public login(req: Request, res: Response) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     const data = req.body;
 
@@ -113,7 +113,7 @@ export class RFRController {
       });
     }
 
-    const wallet = new Wallet(data.username + ip);
+    const wallet = new Wallet(data.username);
 
     if (!p2pServer.walletManager.getWalletByPublicKey(wallet.publicToken)) {
       return res.status(400).json({

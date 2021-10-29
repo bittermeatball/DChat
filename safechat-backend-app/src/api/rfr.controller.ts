@@ -63,6 +63,8 @@ export class RFRController {
   // When create we need to send to the chain this transaction
   @Post('/account')
   public createAccount(req: Request, res: Response) {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
     const data = req.body;
 
     if (!data.username) {
@@ -72,7 +74,7 @@ export class RFRController {
       });
     }
 
-    const wallet = new Wallet(data.username);
+    const wallet = new Wallet(data.username + ip);
 
     const publicToken = p2pServer.walletManager.addWallet(
       wallet,
@@ -93,6 +95,36 @@ export class RFRController {
     return res.status(201).json({
       data: {
         publicToken,
+      },
+      message: 'This is your key to communicate with others',
+    });
+  }
+
+  @Post('/login')
+  public login(req: Request, res: Response) {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    const data = req.body;
+
+    if (!data.username) {
+      return res.status(400).json({
+        code: 'PAYLOAD_SUCK',
+        message: 'You are missing username in the body',
+      });
+    }
+
+    const wallet = new Wallet(data.username + ip);
+
+    if (!p2pServer.walletManager.getWalletByPublicKey(wallet.publicToken)) {
+      return res.status(400).json({
+        code: 'PAYLOAD_SUCK',
+        message: 'Your username is not exist. You need to login first',
+      });
+    }
+
+    return res.status(201).json({
+      data: {
+        publicToken: wallet.publicToken,
       },
       message: 'This is your key to communicate with others',
     });

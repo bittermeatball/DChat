@@ -45,7 +45,7 @@ export class WalletManager {
     return undefined;
   }
 
-  public getWalletByPublicKey(publicToken: string) {
-    return this.walletBox[publicToken].wallet;
+  public getWalletByPublicKey(publicToken: string): Wallet | undefined {
+    return this.walletBox[publicToken]?.wallet;
   }
 }

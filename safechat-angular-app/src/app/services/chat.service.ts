@@ -64,7 +64,8 @@ export class ChatService {
   }
 
   public initPeerConnection(peerId: string) {
-    console.log("Con di peerId" + peerId)
+    console.log("Connect peerId" + peerId)
+    console.log("Connect to peer host" + this._peerHost)
     this._peer = new Peer(peerId, {
       host: this._peerHost,
       port: this._peerPort,

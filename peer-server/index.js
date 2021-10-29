@@ -1,6 +1,11 @@
 const { PeerServer } = require('peer')
+const { readFileSync } = require('fs');
 
 const server = PeerServer({
+    ssl: {
+      key: readFileSync(process.cwd() + '/ssl/secure.key'),
+      cert: readFileSync(process.cwd() + '/ssl/secure.crt'),
+    },
     port: 9000
 }, server => {
   const host = server.address().address;

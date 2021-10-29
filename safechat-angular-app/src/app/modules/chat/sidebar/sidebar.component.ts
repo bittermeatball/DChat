@@ -67,7 +67,7 @@ export class SidebarComponent implements OnInit {
       images: [],
       files: [],
     }
-    
+
     this.onAddConversation.emit(_conversation);
     this.onSelectConversation.emit(_conversation);
   }
@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit {
         username: payload.data.username || userToken,
         avatar: 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
       }
-  
+
       this.handleAddConversation(_contact);
       this.onAddContact.emit(_contact);
     }
@@ -87,7 +87,7 @@ export class SidebarComponent implements OnInit {
     if (username) {
       this.http.get(`${this._baseUrl}/account`, {
         params: {
-          s: userToken,
+          s: username,
         },
         headers: {
           'own-public-key': this.currentUser?.id as string,

@@ -21,7 +21,8 @@ export class Wallet {
       .sign(this.publicKey, secret)
       .split('')
       .reverse()
-      .join('');
+      .join('')
+      .replace(/\./g, '-d0t-');
 
     console.log(this.publicToken);
   }

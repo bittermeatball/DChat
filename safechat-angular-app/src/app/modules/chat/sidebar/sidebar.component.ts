@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
 import { Auth } from 'src/app/core/models/auth.model';
 import { Conversation } from 'src/app/core/models/conversation.model';
@@ -41,6 +42,7 @@ export class SidebarComponent implements OnInit {
     private store: Store<{ auth: AuthState }>,
     private http: HttpClient,
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     @Inject('API_URL') baseUrl: string = '',
   ) {
     this._baseUrl = baseUrl;
@@ -73,6 +75,7 @@ export class SidebarComponent implements OnInit {
   }
 
   handleAddContact(userToken: string, username: string) {
+    const _currentUser = this.currentUser;
     const _addContact = (payload: any) => {
       const _contact = {
         id: userToken || payload.data.publicToken,
@@ -90,9 +93,12 @@ export class SidebarComponent implements OnInit {
           s: username,
         },
         headers: {
-          'own-public-key': this.currentUser?.id as string,
+          'own-public-key': _currentUser?.id as string,
         }
-      }).subscribe((payload: any) => _addContact(payload))
+      }).subscribe(
+        (payload: any) => _addContact(payload),
+        (error) => this._snackBar.open(error.error.message, '', { duration: 3000 })
+      )
     } else if (userToken) {
       this.http.get(`${this._baseUrl}/account/${userToken}`).subscribe((payload: any) => _addContact(payload))
     }

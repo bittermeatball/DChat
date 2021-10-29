@@ -30,7 +30,7 @@ export class ChatService {
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     private store: Store<AuthState>,
-    private dialog: MatDialog, 
+    private dialog: MatDialog,
     @Inject('API_URL') baseUrl: string = '',
     @Inject('PEER_HOST') peerHost: string = '',
     @Inject('PEER_PORT') peerPort: number = 9000,
@@ -64,6 +64,7 @@ export class ChatService {
   }
 
   public initPeerConnection(peerId: string) {
+    console.log("Con di peerId" + peerId)
     this._peer = new Peer(peerId, {
       host: this._peerHost,
       port: this._peerPort,

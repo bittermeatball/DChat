@@ -109,36 +109,6 @@ export class RFRController {
     });
   }
 
-  @Post('/login')
-  public login(req: Request, res: Response) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-    const data = req.body;
-
-    if (!data.username) {
-      return res.status(400).json({
-        code: 'PAYLOAD_SUCK',
-        message: 'You are missing username in the body',
-      });
-    }
-
-    const wallet = new Wallet(data.username + ip);
-
-    if (!p2pServer.walletManager.getWalletByPublicKey(wallet.publicToken)) {
-      return res.status(400).json({
-        code: 'PAYLOAD_SUCK',
-        message: 'Your username is not exist. You need to login first',
-      });
-    }
-
-    return res.status(201).json({
-      data: {
-        publicToken: wallet.publicToken,
-      },
-      message: 'This is your key to communicate with others',
-    });
-  }
-
   // Sender must cost a fee to get what he wants
   @Get('/account')
   public search(req: Request, res: Response) {
